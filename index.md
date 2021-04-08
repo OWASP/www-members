@@ -10,6 +10,11 @@ Member Portal [TBD]
 
 
 <script>
+  var cfauth = Cookies.get('CF-Authorization')
+  if(cfauth) {
+    token = getParsedJwt(cfauth);
+    alert(token);
+  }
   
   function getParsedJwt(token) {
     token = {}
@@ -30,5 +35,5 @@ Member Portal [TBD]
   return token
 }
 
- 
+
 </script>
