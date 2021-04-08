@@ -16,6 +16,7 @@ tags: OWASP membership
     if(cfauth) {
       token = getParsedJwt(cfauth);
       $('#member-info').fill_member_info(token['payload']['email']);
+      $('#member-qr').kjua({text: 'https://owasp.org/manage-membership/'});
     } else {
       $('#member-info').fill_member_info('test.leader@owasp.org');
       $('#member-qr').kjua({text: 'https://owasp.org/manage-membership/'});
