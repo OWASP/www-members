@@ -10,7 +10,7 @@ Member Portal [TBD]
 
 
 <script>
-  var cfauth = Cookies.get('CF-Authorization')
+  var cfauth = Cookies.get('CF_Authorization')
   if(cfauth) {
     token = getParsedJwt(cfauth);
     alert(token);
