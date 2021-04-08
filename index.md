@@ -6,7 +6,8 @@ tags: OWASP membership
 
 ---
 
-<div id='member-qr' style='float:right;'></div>
+<div id='member-qr' style='float:right;'>
+</div>
 <div id='member-info'>
 </div>
 
