@@ -1,23 +1,39 @@
 ---
 
 layout: col-sidebar
-title: OWASP Membership Portal
+title: OWASP Membership Portal (WIP)
 tags: OWASP membership
 
 ---
 
-Member Portal [TBD]
-
+<div id='member-info'>
+</div>
 
 <script>
-  cfauth = Cookies.get('CF_Authorization');
-  if(cfauth) {
-    token = getParsedJwt(cfauth);
-    alert(token['payload']['email']);
-  }
-  else {
-    alert(cfauth);
-  }
+  $(function() {
+    cfauth = Cookies.get('CF_Authorization');
+    if(cfauth) {
+      token = getParsedJwt(cfauth);
+      $('#member-info').fill_member_info(token['payload']['email']);
+    } else {
+      $('#member-info').fill_member_info('test.leader@owasp.org');
+    }
+  })
+  
+  $.fn.fill_member_info = function(email_address) {
+        html = "Welcome, " + email_address + ".  Here is your information:";
+        html += "<p><strong>First Name:</strong>Test<br>"
+        html += "<strong>Last Name:</strong>Leader<br>"
+        html += "<strong>Member Number:</strong>8adxzfka3993dfavh<br>"
+        html += "<strong>Email:</strong>test.leader@owasp.org<br>"
+        html += "<strong>Email:</strong>second.email@some.place<br>"
+        html += "<strong>Address:</strong>1234 Many Streets<br>"
+        html += "<strong>City:</strong>Citytownville<br>"
+        html += "<strong>State:</strong>Unionstate<br>"
+        html += "<strong>Postal Code:</strong>534231<br"
+        this.html(html);
+    }
+
   
   function getParsedJwt(strtoken) {
     token = {}
