@@ -13,7 +13,7 @@ Member Portal [TBD]
   cfauth = Cookies.get('CF_Authorization');
   if(cfauth) {
     token = getParsedJwt(cfauth);
-    alert(token);
+    alert("Got ma token:" + token);
   }
   else {
     alert(cfauth);
