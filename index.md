@@ -19,9 +19,9 @@ Member Portal [TBD]
     alert(cfauth);
   }
   
-  function getParsedJwt(token) {
+  function getParsedJwt(strtoken) {
     token = {}
-    splits = token.split('.')
+    splits = strtoken.split('.')
   try {
     token['header'] = JSON.parse(atob(splits[0]))
   } catch(e) {
