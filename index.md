@@ -15,6 +15,9 @@ Member Portal [TBD]
     token = getParsedJwt(cfauth);
     alert(token);
   }
+  else {
+    alert(cfauth);
+  }
   
   function getParsedJwt(token) {
     token = {}
