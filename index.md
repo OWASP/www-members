@@ -9,23 +9,16 @@ tags: OWASP membership
 <div id='member-qr' style='float:right;'>
 </div>
 <div id='member-info'>
+This may take a few moments...
 </div>
 
 <script>
   $(function() {
-    cfauth = Cookies.get('CF_Authorization');
-    if(cfauth) {
-      token = getParsedJwt(cfauth);
-      $('#member-info').fill_member_info(token['payload']['email']);
-      $('#member-qr').kjua({text: 'https://owasp.org/manage-membership/'});
-      $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { email :"harold.blankenship@owasp.com" }, function( data ) {
+      $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
           alert( data );
+          $('#member-info').fill_member_info(data['email']);
+          $('#member-qr').kjua({text: data['member_number']});
         });
-  
-    } else {
-      $('#member-info').fill_member_info('test.leader@owasp.org');
-      $('#member-qr').kjua({text: 'https://owasp.org/manage-membership/'});
-    }
   })
   
   $.fn.fill_member_info = function(email_address) {
@@ -41,25 +34,4 @@ tags: OWASP membership
         html += "<strong>Postal Code:</strong>534231<br";
         this.html(html);
     }
-  
-  function getParsedJwt(strtoken) {
-    token = {}
-    splits = strtoken.split('.')
-  try {
-    token['header'] = JSON.parse(atob(splits[0]))
-  } catch(e) {
-  }
-  try {
-    token['payload'] = JSON.parse(atob(splits[1]))
-  } catch (e) { 
-  }
-  
-  try {
-    token['signature'] = splits[2]
-  } catch (e) { 
-  }
-  return token
-}
-
-
 </script>
