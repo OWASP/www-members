@@ -18,6 +18,8 @@ This may take a few moments...
           alert( data );
           $('#member-info').fill_member_info(data['email']);
           $('#member-qr').kjua({text: data['member_number']});
+        }).fail(function() {
+               $('#member-info').html('<strong>Failed to find member information.</strong>')
         });
   })
   
