@@ -18,6 +18,10 @@ tags: OWASP membership
       token = getParsedJwt(cfauth);
       $('#member-info').fill_member_info(token['payload']['email']);
       $('#member-qr').kjua({text: 'https://owasp.org/manage-membership/'});
+      $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { email :"harold.blankenship@owasp.com" }, function( data ) {
+          alert( data );
+        });
+  
     } else {
       $('#member-info').fill_member_info('test.leader@owasp.org');
       $('#member-qr').kjua({text: 'https://owasp.org/manage-membership/'});
@@ -37,7 +41,6 @@ tags: OWASP membership
         html += "<strong>Postal Code:</strong>534231<br";
         this.html(html);
     }
-
   
   function getParsedJwt(strtoken) {
     token = {}
