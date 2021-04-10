@@ -65,7 +65,7 @@ window.addEventListener('load', function() {
       const postData = {
         authtoken: Cookies.get('CF_Authorization')
       }
-      axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A=', postData)
+      axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
             .then(function (response) {
                 membership_data = JSON.parse(response)
                 //$('#member-info').fill_member_info(memdata);
