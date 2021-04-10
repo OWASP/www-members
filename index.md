@@ -15,7 +15,7 @@ This may take a few moments...
 <script>
   $(function() {
       $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
-          memdata = json.loads(data)
+          memdata = JSON.loads(data)
           $('#member-info').fill_member_info(memdata);
           $('#member-qr').kjua({text: data["member_number"]});
         }).fail(function() {
