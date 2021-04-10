@@ -30,9 +30,9 @@ This may take a few moments...
         if(memberdata) {
           html = "Welcome, " + memberdata['name'] + ".<br>";
           html += "<strong>Member Number:</strong>" + memberdata['member_number'].substring(memberdata['member_number'].lastIndexOf('/')) + "<br>";
-          html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
+          html += "<strong>Email:</strong>" + memberdata['emails'][0] + "<br>";
           html += "<strong>Address:</strong>" + memberdata['address'] + "<br>";
-          html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
+          html += "<strong>Phone:</strong>" + memberdata['phone_numbers'][0] + "<br>";
           html += "<strong>Membership Type:</strong>" + memberdata['membership_type'] + "<br>";
           html += "<strong>Membership Start:</strong>" + memberdata['membership_start'] + "<br>";
           html += "<strong>Membership End:</strong>" + memberdata['membership_end'] + "<br>";
