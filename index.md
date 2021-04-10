@@ -23,15 +23,20 @@ This may take a few moments...
   })
   
   $.fn.fill_member_info = function(data) {
-        html = "Welcome, " + data['name'] + ".";
-        html += "<strong>Member Number:</strong>" + data['member_number'] + "<br>";
-        html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
-        html += "<strong>Address:</strong>" + data['address'] + "<br>";
-        html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
-        html += "<strong>Membership Type:</strong>" + data['membership_type'] + "<br>";
-        html += "<strong>Membership Start:</strong>" + data['membership_start'] + "<br>";
-        html += "<strong>Membership End:</strong>" + data['membership_end'] + "<br>";
-        html += "<strong>Recurring:</strong>" + data['membership_recurring'] + "<br>";
-        this.html(html);
+        if(data) {
+          html = "Welcome, " + data['name'] + ".";
+          html += "<strong>Member Number:</strong>" + data['member_number'] + "<br>";
+          html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
+          html += "<strong>Address:</strong>" + data['address'] + "<br>";
+          html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
+          html += "<strong>Membership Type:</strong>" + data['membership_type'] + "<br>";
+          html += "<strong>Membership Start:</strong>" + data['membership_start'] + "<br>";
+          html += "<strong>Membership End:</strong>" + data['membership_end'] + "<br>";
+          html += "<strong>Recurring:</strong>" + data['membership_recurring'] + "<br>";
+          this.html(html);
+        } else {
+          this.html('Oops.  Something wicked this way comes');
+        }
+
     }
 </script>
