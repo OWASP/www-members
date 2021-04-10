@@ -1,17 +1,6 @@
-### [GROUPNAME] Information
-* [Flagship Project](#)
-* [Tool Project](#)
-* [Version 2.8.0](#)
-* [Builder](#)
-* [Breaker](#)
-
-### Downloads or Social Links
-* [Download](#)
-* [Meetup](#)
-
-### Code Repository
-* [repo](#)
-
-### Change Log
-* [changes](#)
+### Useful Membership Links
+* [Membership Resources](#)
+* [Renew Membership](#)
+* [Contribute to Projects](#)
+* [Find a Chapter](#)
 
