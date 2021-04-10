@@ -15,25 +15,19 @@ This may take a few moments...
 <script>
   $(function() {
       $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
-          alert( data );
-          $('#member-info').fill_member_info(data['email']);
+          $('#member-info').fill_member_info(data);
           $('#member-qr').kjua({text: data['member_number']});
         }).fail(function() {
                $('#member-info').html('<strong>Failed to find member information.</strong>')
         });
   })
   
-  $.fn.fill_member_info = function(email_address) {
-        html = "Welcome, " + email_address + ".  Here is your information:";
-        html += "<p><strong>First Name:</strong>Test<br>";
-        html += "<strong>Last Name:</strong>Leader<br>";
-        html += "<strong>Member Number:</strong>8adxzfka3993dfavh<br>";
-        html += "<strong>Email:</strong>test.leader@owasp.org<br>";
-        html += "<strong>Email:</strong>second.email@some.place<br>";
-        html += "<strong>Address:</strong>1234 Many Streets<br>";
-        html += "<strong>City:</strong>Citytownville<br>";
-        html += "<strong>State:</strong>Unionstate<br>";
-        html += "<strong>Postal Code:</strong>534231<br";
+  $.fn.fill_member_info = function(data) {
+        html = "Welcome, " + data['name'] + ".";
+        html += "<strong>Member Number:</strong>" + data['member_number'].substring(data['member_number'].lastIndexOf('/')) + "<br>";
+        html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
+        html += "<strong>Address:</strong>" + data['address'] + "<br>";
+        html += "<strong>Phone:</phone>" + data['phone_numbers'][0] + "<br>";
         this.html(html);
     }
 </script>
