@@ -70,9 +70,9 @@ window.addEventListener('load', function() {
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
             .then(response => {
-                alert(response['email'])
+                alert(response.data['email'])
 
-                this.membership_data =response
+                this.membership_data =response.data
                 this.loading=false
                 this.$forceUpdate()
                 //$('#member-info').fill_member_info(memdata);
