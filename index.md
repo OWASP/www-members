@@ -27,7 +27,11 @@ This may take a few moments...
         html += "<strong>Member Number:</strong>" + data['member_number'].substring(data['member_number'].lastIndexOf('/')) + "<br>";
         html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
         html += "<strong>Address:</strong>" + data['address'] + "<br>";
-        html += "<strong>Phone:</phone>" + data['phone_numbers'][0] + "<br>";
+        html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
+        html += "<strong>Membership Type:</strong>" + data['membership_type'] + "<br>";
+        html += "<strong>Membership Start:</strong>" + data['membership_start'] + "<br>";
+        html += "<strong>Membership End:</strong>" + data['membership_end'] + "<br>";
+        html += "<strong>Recurring:</strong>" + data['membership_recurring'] + "<br>";
         this.html(html);
     }
 </script>
