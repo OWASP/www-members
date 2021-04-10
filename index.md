@@ -70,15 +70,14 @@ window.addEventListener('load', function() {
             .then(function (response) {
                 membership_data = JSON.parse(response)
                 this.loading=false
-                this.$forceUpdate();
+                //this.$forceUpdate();
                 //$('#member-info').fill_member_info(memdata);
                 //$('#member-qr').kjua({text: memdata["member_number"]});
             })
             .catch(function (err) {
-              alert(err)
               this.errors = { error : 'These are not the droids you are looking for' }
               this.loading = false
-              this.$forceUpdate();
+              //this.$forceUpdate();
               //this.$nextTick(function(){
               //  document.getElementById('error-message').scrollIntoView();
               //})
