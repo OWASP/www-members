@@ -15,7 +15,7 @@ This may take a few moments...
 <script>
   $(function() {
       $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
-          alert(data);
+          alert(data['membership_type']);
           $('#member-info').fill_member_info(data);
           $('#member-qr').kjua({text: data["member_number"]});
         }).fail(function() {
@@ -25,8 +25,7 @@ This may take a few moments...
   
   $.fn.fill_member_info = function(memberdata) {
         if(memberdata) {
-          alert(memberdata);
-          html = "Welcome, " + memberdata["name"] + ".<br>";
+          html = "Welcome, " + memberdata.get('name') + ".<br>";
           html += "<strong>Member Number:</strong>" + memberdata['member_number'] + "<br>";
           //html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
           html += "<strong>Address:</strong>" + memberdata['address'] + "<br>";
