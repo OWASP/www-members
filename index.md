@@ -24,7 +24,7 @@ This may take a few moments...
   
   $.fn.fill_member_info = function(data) {
         html = "Welcome, " + data['name'] + ".";
-        html += "<strong>Member Number:</strong>" + data['member_number'].substring(data['member_number'].lastIndexOf('/')) + "<br>";
+        html += "<strong>Member Number:</strong>" + data['member_number'] + "<br>";
         html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
         html += "<strong>Address:</strong>" + data['address'] + "<br>";
         html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
