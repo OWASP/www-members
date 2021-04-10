@@ -61,17 +61,20 @@ window.addEventListener('load', function() {
       membership_data: null,
     },
     created: function() {
+      this.loading=true
       //might put something here eventually...
       const postData = {
         authtoken: Cookies.get('CF_Authorization')
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
             .then(function (response) {
+                alert(response);
                 membership_data = JSON.parse(response)
                 //$('#member-info').fill_member_info(memdata);
                 //$('#member-qr').kjua({text: memdata["member_number"]});
             })
             .catch(function (error) {
+              alert(error)
               this.errors = { error : 'These are not the droids you are looking for' }
               this.loading = false
               //this.$nextTick(function(){
