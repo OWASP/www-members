@@ -9,17 +9,17 @@ tags: OWASP membership
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-info' v-if='!loading'>
-     <h3>Welcome, {{ vm.membership_data['name'] }}</h3>
-     <strong>Member Number:</strong> {{ vm. membership_data['member_number'].substring(vm.membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
-     <strong>Email:</strong>{{ vm.membership_data['emails'][0]['email'] }}<br>
-     <strong>Address:</strong>{{ vm. membership_data['address'] }}<br>
-     <strong>Phone:</strong>{{ vm. membership_data['phone_numbers'][0]['number'] }}<br>
-     <strong>Membership Type:</strong>{{ vm. membership_data['membership_type'] }}<br>
-     <strong>Membership Start:</strong>{{ vm. membership_data['membership_start'] }}<br>
-     <strong>Membership End:</strong>{{ vm. membership_data['membership_end'] }}<br>
-     <strong>Recurring:</strong>{{ vm.membership_data['membership_recurring'] }}<br>
+     <h3>Welcome, {{ membership_data['name'] }}</h3>
+     <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
+     <strong>Email:</strong>{{ membership_data['emails'][0]['email'] }}<br>
+     <strong>Address:</strong>{{ membership_data['address'] }}<br>
+     <strong>Phone:</strong>{{ membership_data['phone_numbers'][0]['number'] }}<br>
+     <strong>Membership Type:</strong>{{ membership_data['membership_type'] }}<br>
+     <strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>
+     <strong>Membership End:</strong>{{ membership_data['membership_end'] }}<br>
+     <strong>Recurring:</strong>{{ membership_data['membership_recurring'] }}<br>
    </div>
-   <div id='errors' v-if='errors.error'>
+   <div id='errors' v-if="Object.keys(errors).length">
       <strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>
    </div>
    <div id='loading' v-if='loading'>
@@ -72,11 +72,11 @@ window.addEventListener('load', function() {
                 //$('#member-qr').kjua({text: memdata["member_number"]});
             })
             .catch(function (error) {
-              vm.errors = { error : 'These are not the droids you are looking for' }
-              vm.loading = false
-              vm.$nextTick(function(){
-                document.getElementById('error-message').scrollIntoView();
-              })
+              this.errors = { error : 'These are not the droids you are looking for' }
+              this.loading = false
+              //this.$nextTick(function(){
+              //  document.getElementById('error-message').scrollIntoView();
+              //})
             }) 
     },
   })
