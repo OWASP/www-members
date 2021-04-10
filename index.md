@@ -68,15 +68,17 @@ window.addEventListener('load', function() {
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
             .then(function (response) {
-                alert(response);
                 membership_data = JSON.parse(response)
+                this.loading=false
+                this.$forceUpdate();
                 //$('#member-info').fill_member_info(memdata);
                 //$('#member-qr').kjua({text: memdata["member_number"]});
             })
-            .catch(function (error) {
-              alert(error)
+            .catch(function (err) {
+              alert(err)
               this.errors = { error : 'These are not the droids you are looking for' }
               this.loading = false
+              this.$forceUpdate();
               //this.$nextTick(function(){
               //  document.getElementById('error-message').scrollIntoView();
               //})
