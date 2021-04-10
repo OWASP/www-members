@@ -25,7 +25,7 @@ This may take a few moments...
   
   $.fn.fill_member_info = function(memberdata) {
         if(memberdata) {
-          alert(memberdata['membership_type']);
+          alert(memberdata);
           html = "Welcome, " + memberdata["name"] + ".<br>";
           html += "<strong>Member Number:</strong>" + memberdata['member_number'] + "<br>";
           //html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
