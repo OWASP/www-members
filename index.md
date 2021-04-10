@@ -8,7 +8,7 @@ tags: OWASP membership
 
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
-   <div id='member-info' v-if='!loading'>
+   <div id='member-info' v-if='membership_data'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
      <strong>Email:</strong>{{ membership_data['emails'][0]['email'] }}<br>
@@ -70,9 +70,9 @@ window.addEventListener('load', function() {
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
             .then(response => {
-                alert(this.errors)
-                alert(response)
-                this.membership_data = JSON.parse(response)
+                alert(response['email'])
+
+                this.membership_data =response
                 this.loading=false
                 this.$forceUpdate()
                 //$('#member-info').fill_member_info(memdata);
