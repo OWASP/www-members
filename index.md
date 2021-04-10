@@ -64,7 +64,9 @@ window.addEventListener('load', function() {
       this.loading=true
       //might put something here eventually...
       const postData = {
-        authtoken: Cookies.get('CF_Authorization')
+        params: {
+          authtoken: Cookies.get('CF_Authorization')
+        }
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
             .then(function (response) {
