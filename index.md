@@ -15,9 +15,9 @@ This may take a few moments...
 <script>
   $(function() {
       $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
-          memdata = JSON.loads(data)
+          memdata = JSON.parse(data)
           $('#member-info').fill_member_info(memdata);
-          $('#member-qr').kjua({text: data["member_number"]});
+          $('#member-qr').kjua({text: memdata["member_number"]});
         }).fail(function() {
                $('#member-info').html('<strong>Failed to find member information.</strong>')
         });
