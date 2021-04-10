@@ -87,7 +87,7 @@ window.addEventListener('load', function() {
 }, false)
 </script>
 
-
+<!--
 <script>
   $(function() {
       $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
@@ -117,3 +117,4 @@ window.addEventListener('load', function() {
 
     }
 </script>
+-->
