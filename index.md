@@ -10,6 +10,9 @@ tags: OWASP membership
 </div>
 <div id='member-info'>
 This may take a few moments...
+<div class='spinner'>
+  <div class='inner-spinner'></div>
+</div>
 </div>
 
 <script>
@@ -26,10 +29,10 @@ This may take a few moments...
   $.fn.fill_member_info = function(memberdata) {
         if(memberdata) {
           html = "Welcome, " + memberdata['name'] + ".<br>";
-          html += "<strong>Member Number:</strong>" + memberdata['member_number'] + "<br>";
-          //html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
+          html += "<strong>Member Number:</strong>" + memberdata['member_number'].substring(memberdata['member_number'].lastIndexOf('/')) + "<br>";
+          html += "<strong>Email:</strong>" + data['emails'][0] + "<br>";
           html += "<strong>Address:</strong>" + memberdata['address'] + "<br>";
-          //html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
+          html += "<strong>Phone:</strong>" + data['phone_numbers'][0] + "<br>";
           html += "<strong>Membership Type:</strong>" + memberdata['membership_type'] + "<br>";
           html += "<strong>Membership Start:</strong>" + memberdata['membership_start'] + "<br>";
           html += "<strong>Membership End:</strong>" + memberdata['membership_end'] + "<br>";
