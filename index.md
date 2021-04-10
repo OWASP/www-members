@@ -6,6 +6,22 @@ tags: OWASP membership
 
 ---
 
+{% raw %}
+<div id="membership-portal-app" style="margin: 0px;" v-cloak>
+   <div id='member-info' v-if='!loading'>
+   </div>
+   <div id='loading' v-if='loading'>
+      This may take a few moments...
+      <button class='cta-button' style='width:80px;height:80px;'>
+        <div class='spinner'>
+          <div class='inner-spinner'></div>
+        </div>
+      </button>
+   </div>
+</div>
+
+
+<!-- keep below for reference 
 <div id='member-qr' style='float:right;'>
 </div>
 <div id='member-info'>
@@ -15,7 +31,30 @@ This may take a few moments...
     <div class='inner-spinner'></div>
   </div>
 </button>
-</div>
+</div>-->
+
+{% endraw %}
+
+<script src="https://js.stripe.com/v3"></script>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+window.addEventListener('load', function() {
+  new Vue({
+    el: '#membership-portal-app',
+    data: {
+      loading: true,
+      errors: {},
+      membership_data: null,
+    },
+    created: function() {
+      //might put something here eventually...
+    },
+  })
+}, false)
+</script>
+
 
 <script>
   $(function() {
@@ -30,7 +69,7 @@ This may take a few moments...
   
   $.fn.fill_member_info = function(memberdata) {
         if(memberdata) {
-          html = "Welcome, " + memberdata['name'] + ".<br>";
+          html = "<h3>Welcome, " + memberdata['name'] + ".</h3><br>";
           html += "<strong>Member Number:</strong>" + memberdata['member_number'].substring(memberdata['member_number'].lastIndexOf('/') + 1) + "<br>";
           html += "<strong>Email:</strong>" + memberdata['emails'][0]['email'] + "<br>";
           html += "<strong>Address:</strong>" + memberdata['address'] + "<br>";
