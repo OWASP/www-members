@@ -10,8 +10,10 @@ tags: OWASP membership
 </div>
 <div id='member-info'>
 This may take a few moments...
+<div class='cta-button'>
 <div class='spinner'>
   <div class='inner-spinner'></div>
+</div>
 </div>
 </div>
 
@@ -22,7 +24,7 @@ This may take a few moments...
           $('#member-info').fill_member_info(memdata);
           $('#member-qr').kjua({text: memdata["member_number"]});
         }).fail(function() {
-               $('#member-info').html('<strong>Failed to find member information.</strong>')
+               $('#member-info').html('<strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>')
         });
   })
   
