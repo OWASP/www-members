@@ -65,7 +65,9 @@ window.addEventListener('load', function() {
               .then(response => {
                   this.membership_data = response.data
                   this.loading=false
+                  alert(membership_data['member_number'])
                   el = kjua({text: membership_data['member_number']});
+                  alert(el)
                   //document.querySelector('member-qr').appendChild(el);
                   div = document.getElementById('member-qr');
                   div.innerHTML += 'Extra stuff';
@@ -73,6 +75,7 @@ window.addEventListener('load', function() {
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
+                alert(err)
                 this.errors = { error : 'These are not the droids you are looking for' }
                 this.loading = false
                 this.$forceUpdate()
