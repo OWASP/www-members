@@ -87,7 +87,7 @@ window.addEventListener('load', function() {
           this.$forceUpdate()
         })
       } // end if loading
-    }
+    }, // end updated
   }) // end Vue
 }, false) // end addEventListener
 </script>
