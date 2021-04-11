@@ -8,7 +8,7 @@ tags: OWASP membership
 
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
-   <div id='member-info' v-if='membership_data'>
+   <div id='member-info' v-if='member_ready'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
      <strong>Email:</strong>{{ membership_data['emails'][0]['email'] }}<br>
@@ -66,6 +66,9 @@ window.addEventListener('load', function() {
           this.doInitialUpdate()
         }, 1000)
      },
+     computed: {
+      member_ready: function() { = (!loading && member_data != null && len(member_data.keys) > 0) }
+    },
     methods: {
     doInitialUpdate: function() {
       clearInterval(this.updater)
