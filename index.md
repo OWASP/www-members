@@ -69,6 +69,7 @@ window.addEventListener('load', function() {
                  
                   this.$forceUpdate()
                   this.update_interval = setInterval(function() { 
+                      alert('interval')
                       if(this.membership_data) {
                           alert(this.membership_data['member_number'])
                           el = kjua({text: this.membership_data['member_number']});
