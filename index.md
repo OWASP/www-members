@@ -61,19 +61,39 @@ window.addEventListener('load', function() {
       loading: true,
       errors: {},
       membership_data: null,
-      updater: null,
+      //updater: null,
     },
     created: function() {
-          this.updater = setInterval(() => {
-          this.doInitialUpdate()
-        }, 1000)
+          //this.updater = setInterval(() => {
+          //this.doInitialUpdate()
+        //}, 1000)
+        if(this.loading){
+            const postData = {
+            params: {
+                authtoken: Cookies.get('CF_Authorization')
+              }
+            }
+            axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
+              .then(response => {
+                  this.membership_data = response.data
+                  this.loading=false
+                  this.$forceUpdate()
+                  //$('#member-info').fill_member_info(memdata);
+                  //$('#member-qr').kjua({text: memdata["member_number"]});
+              })
+              .catch(err => {
+                this.errors = { error : 'These are not the droids you are looking for' }
+                this.loading = false
+                this.$forceUpdate()
+              })
+        } // end if loading
      },
      computed: {
       member_ready: function() { return (!this.loading && this.membership_data != null) }
     },
     methods: {
     doInitialUpdate: function() {
-      clearInterval(this.updater)
+      //clearInterval(this.updater)
       if(this.loading){
       const postData = {
       params: {
