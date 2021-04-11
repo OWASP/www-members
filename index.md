@@ -61,11 +61,13 @@ window.addEventListener('load', function() {
       membership_data: null,
     },
     created: function() {
-      //this.loading=true
-      this.$forceUpdate()
-      //might put something here eventually...
+          setInterval(() => {
+          this.doInitialUpdate()
+        }, 1000)
      },
-    updated: function() {
+    methods: {
+    doInitialUpdate: function() {
+      clearInterval()
       alert('updated')
       if(loading){
       const postData = {
@@ -87,7 +89,8 @@ window.addEventListener('load', function() {
           this.$forceUpdate()
         })
       } // end if loading
-    }, // end updated
+    } //end updated
+  }  // end methods
   }) // end Vue
 }, false) // end addEventListener
 </script>
