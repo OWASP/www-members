@@ -76,6 +76,7 @@ window.addEventListener('load', function() {
                             div.appendChild(el)
 
                           clearInterval(this.update_interval)
+                      }
                   }, 1000)
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
@@ -88,7 +89,7 @@ window.addEventListener('load', function() {
         } // end if loading
      },
      computed: {
-      member_ready: function() { return (!this.loading && this.membership_data != null) },
+      member_ready: function() { return (!this.loading && this.membership_data != null) }
     },
   }) // end Vue
 }, false) // end addEventListener
