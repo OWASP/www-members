@@ -9,11 +9,13 @@ tags: OWASP membership
 [v-cloak] {display: none}
 
 #member-qr {
-  float:left;
+  float:right;
 }
 </style>
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
+   <div id='member-qr'>
+   </div>
    <div id='member-info' v-if='member_ready'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
@@ -24,8 +26,6 @@ tags: OWASP membership
      <strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>
      <strong>Membership End:</strong>{{ membership_data['membership_end'] }}<br>
      <strong>Recurring:</strong>{{ membership_data['membership_recurring'] }}<br>
-   </div>
-   <div id='member-qr'>
    </div>
    <div id='errors' v-if="Object.keys(errors).length">
       <strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>
