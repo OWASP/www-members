@@ -15,7 +15,7 @@ tags: OWASP membership
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-info' v-if='member_ready'>
-     <div id='member-qr' v-if='member_qr_ready'>
+     <div id='member-qr'>
      </div>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
