@@ -68,7 +68,7 @@ window.addEventListener('load', function() {
                   this.loading=false
                  
                   this.$forceUpdate()
-                  this.update_interval = setInterval(function(membership_data) { 
+                  this.update_interval = setInterval(function(membership_data, interval) { 
                       if(membership_data) {
                           alert(membership_data['member_number'])
                           el = kjua({text: membership_data['member_number']});
@@ -80,9 +80,9 @@ window.addEventListener('load', function() {
                             alert('no div')
                           }
 
-                          clearInterval(this.update_interval)
+                          clearInterval(interval)
                       }
-                  }, 1000, this.membership_data)
+                  }, 1000, this.membership_data, this.update_interval)
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
