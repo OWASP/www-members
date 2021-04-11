@@ -70,10 +70,15 @@ window.addEventListener('load', function() {
                   this.$forceUpdate()
                   this.update_interval = setInterval(function() { 
                       if(this.membership_data) {
+                          alert(this.membership_data['member_number'])
                           el = kjua({text: this.membership_data['member_number']});
                           div = document.getElementById('member-qr');
-                          if(div)
+                          if(div) {
+                            alert('appending kjua')
                             div.appendChild(el)
+                          } else {
+                            alert('no div')
+                          }
 
                           clearInterval(this.update_interval)
                       }
