@@ -66,6 +66,7 @@ window.addEventListener('load', function() {
       //might put something here eventually...
      },
     updated: function() {
+      if(loading){
       const postData = {
       params: {
           authtoken: Cookies.get('CF_Authorization')
@@ -84,6 +85,7 @@ window.addEventListener('load', function() {
           this.loading = false
           this.$forceUpdate()
         })
+      } // end if loading
     }
   }) // end Vue
 }, false) // end addEventListener
