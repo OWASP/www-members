@@ -67,7 +67,7 @@ window.addEventListener('load', function() {
         }, 1000)
      },
      computed: {
-      member_ready: function() { return (!this.loading && this.membership_data != null }
+      member_ready: function() { return (!this.loading && this.membership_data != null) }
     },
     methods: {
     doInitialUpdate: function() {
