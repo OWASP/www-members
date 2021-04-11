@@ -80,12 +80,14 @@ window.addEventListener('load', function() {
      computed: {
       member_ready: function() { return (!this.loading && this.membership_data != null) },
       member_qr_ready: function (){
-        el = kjua({text: this.membership_data['member_number']});
-        //document.querySelector('member-qr').appendChild(el);
-        div = document.getElementById('member-qr');
-        if(div)
-          div.appendChild(el)
-        
+        div = null
+        if(this.membership_data) {
+          el = kjua({text: this.membership_data['member_number']});
+          //document.querySelector('member-qr').appendChild(el);
+          div = document.getElementById('member-qr');
+          if(div)
+            div.appendChild(el)
+        }
         return div
       }
     },
