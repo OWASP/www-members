@@ -53,6 +53,7 @@ window.addEventListener('load', function() {
       loading: true,
       errors: {},
       membership_data: null,
+      update_interval : null,
     },
     created: function() {
         if(this.loading){
@@ -67,6 +68,15 @@ window.addEventListener('load', function() {
                   this.loading=false
                  
                   this.$forceUpdate()
+                  this.update_interval = setInterval(function() { 
+                      if(this.membership_data) {
+                          el = kjua({text: this.membership_data['member_number']});
+                          div = document.getElementById('member-qr');
+                          if(div)
+                            div.appendChild(el)
+
+                          clearInterval(this.update_interval)
+                  }, 1000)
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
@@ -79,17 +89,6 @@ window.addEventListener('load', function() {
      },
      computed: {
       member_ready: function() { return (!this.loading && this.membership_data != null) },
-      member_qr_ready: function (){
-        div = null
-        if(this.membership_data) {
-          el = kjua({text: this.membership_data['member_number']});
-          //document.querySelector('member-qr').appendChild(el);
-          div = document.getElementById('member-qr');
-          if(div)
-            div.appendChild(el)
-        }
-        return div
-      }
     },
   }) // end Vue
 }, false) // end addEventListener
