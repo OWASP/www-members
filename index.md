@@ -5,7 +5,9 @@ title: OWASP Membership Portal (WIP)
 tags: OWASP membership
 
 ---
-
+<style>
+[v-cloak] {display: none}
+</style>
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-info' v-if='member_ready'>
