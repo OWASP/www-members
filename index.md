@@ -68,8 +68,7 @@ window.addEventListener('load', function() {
     methods: {
     doInitialUpdate: function() {
       clearInterval()
-      alert('updated')
-      if(loading){
+      if(this.loading){
       const postData = {
       params: {
           authtoken: Cookies.get('CF_Authorization')
