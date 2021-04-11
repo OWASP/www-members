@@ -10,6 +10,7 @@ tags: OWASP membership
 
 #member-qr {
   float:right;
+  padding: 16px;
 }
 </style>
 {% raw %}
