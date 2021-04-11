@@ -67,7 +67,7 @@ window.addEventListener('load', function() {
         }, 1000)
      },
      computed: {
-      member_ready: function() { return (!loading && member_data != null && len(member_data.keys) > 0) }
+      member_ready: function() { return (!this.loading && this.membership_data != null && len(this.membership_data.keys) > 0) }
     },
     methods: {
     doInitialUpdate: function() {
@@ -80,7 +80,7 @@ window.addEventListener('load', function() {
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
         .then(response => {
-            this.membership_data =response.data
+            this.membership_data = response.data
             this.loading=false
             this.$forceUpdate()
             //$('#member-info').fill_member_info(memdata);
