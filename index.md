@@ -7,10 +7,16 @@ tags: OWASP membership
 ---
 <style>
 [v-cloak] {display: none}
+
+#member-qr {
+  float:right;
+}
 </style>
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-info' v-if='member_ready'>
+     <div id='member-qr'>
+     </div>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
      <strong>Email:</strong>{{ membership_data['emails'][0]['email'] }}<br>
@@ -33,20 +39,6 @@ tags: OWASP membership
       </button>
    </div>
 </div>
-
-
-<!-- keep below for reference 
-<div id='member-qr' style='float:right;'>
-</div>
-<div id='member-info'>
-This may take a few moments...
-<button class='cta-button' style='width:80px;height:80px;'>
-  <div class='spinner'>
-    <div class='inner-spinner'></div>
-  </div>
-</button>
-</div>-->
-
 {% endraw %}
 
 <script src="https://js.stripe.com/v3"></script>
@@ -61,12 +53,8 @@ window.addEventListener('load', function() {
       loading: true,
       errors: {},
       membership_data: null,
-      //updater: null,
     },
     created: function() {
-          //this.updater = setInterval(() => {
-          //this.doInitialUpdate()
-        //}, 1000)
         if(this.loading){
             const postData = {
             params: {
@@ -77,8 +65,9 @@ window.addEventListener('load', function() {
               .then(response => {
                   this.membership_data = response.data
                   this.loading=false
+                  el = kjua({text: membership_data['member_number']});
+                  document.querySelector('member-qr').appendChild(el);
                   this.$forceUpdate()
-                  //$('#member-info').fill_member_info(memdata);
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
@@ -91,63 +80,6 @@ window.addEventListener('load', function() {
      computed: {
       member_ready: function() { return (!this.loading && this.membership_data != null) }
     },
-    methods: {
-    doInitialUpdate: function() {
-      //clearInterval(this.updater)
-      if(this.loading){
-      const postData = {
-      params: {
-          authtoken: Cookies.get('CF_Authorization')
-        }
-      }
-      axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
-        .then(response => {
-            this.membership_data = response.data
-            this.loading=false
-            this.$forceUpdate()
-            //$('#member-info').fill_member_info(memdata);
-            //$('#member-qr').kjua({text: memdata["member_number"]});
-        })
-        .catch(err => {
-          this.errors = { error : 'These are not the droids you are looking for' }
-          this.loading = false
-          this.$forceUpdate()
-        })
-      } // end if loading
-    } //end updated
-  }  // end methods
   }) // end Vue
 }, false) // end addEventListener
 </script>
-
-<!--
-<script>
-  $(function() {
-      $.get( "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==", { authtoken : Cookies.get('CF_Authorization') }, function( data ) {
-          memdata = JSON.parse(data)
-          $('#member-info').fill_member_info(memdata);
-          $('#member-qr').kjua({text: memdata["member_number"]});
-        }).fail(function() {
-               $('#member-info').html('<strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>')
-        });
-  })
-  
-  $.fn.fill_member_info = function(memberdata) {
-        if(memberdata) {
-          html = "<h3>Welcome, " + memberdata['name'] + ".</h3><br>";
-          html += "<strong>Member Number:</strong>" + memberdata['member_number'].substring(memberdata['member_number'].lastIndexOf('/') + 1) + "<br>";
-          html += "<strong>Email:</strong>" + memberdata['emails'][0]['email'] + "<br>";
-          html += "<strong>Address:</strong>" + memberdata['address'] + "<br>";
-          html += "<strong>Phone:</strong>" + memberdata['phone_numbers'][0]['number'] + "<br>";
-          html += "<strong>Membership Type:</strong>" + memberdata['membership_type'] + "<br>";
-          html += "<strong>Membership Start:</strong>" + memberdata['membership_start'] + "<br>";
-          html += "<strong>Membership End:</strong>" + memberdata['membership_end'] + "<br>";
-          html += "<strong>Recurring:</strong>" + memberdata['membership_recurring'] + "<br>";
-          this.html(html);
-        } else {
-          this.html('Oops.  Something wicked this way comes');
-        }
-
-    }
-</script>
--->
