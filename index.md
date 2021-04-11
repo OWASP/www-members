@@ -15,7 +15,7 @@ tags: OWASP membership
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-info' v-if='member_ready'>
-     <div id='member-qr'>
+     <div id='member-qr' v-if='member_qr_ready'>
      </div>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
@@ -65,10 +65,7 @@ window.addEventListener('load', function() {
               .then(response => {
                   this.membership_data = response.data
                   this.loading=false
-                  el = kjua({text: this.membership_data['member_number']});
-                  //document.querySelector('member-qr').appendChild(el);
-                  div = document.getElementById('member-qr');
-                  div.appendChile(el)
+                 
                   this.$forceUpdate()
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
@@ -81,7 +78,16 @@ window.addEventListener('load', function() {
         } // end if loading
      },
      computed: {
-      member_ready: function() { return (!this.loading && this.membership_data != null) }
+      member_ready: function() { return (!this.loading && this.membership_data != null) },
+      member_qr_ready: function (){
+        el = kjua({text: this.membership_data['member_number']});
+        //document.querySelector('member-qr').appendChild(el);
+        div = document.getElementById('member-qr');
+        if(div)
+          div.appendChild(el)
+        
+        return div
+      }
     },
   }) // end Vue
 }, false) // end addEventListener
