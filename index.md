@@ -62,10 +62,11 @@ window.addEventListener('load', function() {
     },
     created: function() {
       //this.loading=true
-      //this.$forceUpdate()
+      this.$forceUpdate()
       //might put something here eventually...
      },
     updated: function() {
+      alert('updated')
       if(loading){
       const postData = {
       params: {
