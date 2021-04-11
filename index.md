@@ -66,7 +66,9 @@ window.addEventListener('load', function() {
                   this.membership_data = response.data
                   this.loading=false
                   el = kjua({text: membership_data['member_number']});
-                  document.querySelector('member-qr').appendChild(el);
+                  //document.querySelector('member-qr').appendChild(el);
+                  div = document.getElementById('member-qr');
+                  div.innerHTML += 'Extra stuff';
                   this.$forceUpdate()
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
