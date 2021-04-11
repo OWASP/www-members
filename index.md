@@ -59,15 +59,16 @@ window.addEventListener('load', function() {
       loading: true,
       errors: {},
       membership_data: null,
+      updater: null,
     },
     created: function() {
-          setInterval(() => {
+          this.updater = setInterval(() => {
           this.doInitialUpdate()
         }, 1000)
      },
     methods: {
     doInitialUpdate: function() {
-      clearInterval()
+      clearInterval(this.updater)
       if(this.loading){
       const postData = {
       params: {
