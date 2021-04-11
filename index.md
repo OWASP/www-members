@@ -61,30 +61,32 @@ window.addEventListener('load', function() {
       membership_data: null,
     },
     created: function() {
-      this.loading=true
-      this.$forceUpdate()
+      //this.loading=true
+      //this.$forceUpdate()
       //might put something here eventually...
+     },
+    updated: function() {
       const postData = {
-        params: {
+      params: {
           authtoken: Cookies.get('CF_Authorization')
         }
       }
       axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
-            .then(response => {
-                this.membership_data =response.data
-                this.loading=false
-                this.$forceUpdate()
-                //$('#member-info').fill_member_info(memdata);
-                //$('#member-qr').kjua({text: memdata["member_number"]});
-            })
-            .catch(err => {
-              this.errors = { error : 'These are not the droids you are looking for' }
-              this.loading = false
-              this.$forceUpdate()
-            }) 
-    },
-  })
-}, false)
+        .then(response => {
+            this.membership_data =response.data
+            this.loading=false
+            this.$forceUpdate()
+            //$('#member-info').fill_member_info(memdata);
+            //$('#member-qr').kjua({text: memdata["member_number"]});
+        })
+        .catch(err => {
+          this.errors = { error : 'These are not the droids you are looking for' }
+          this.loading = false
+          this.$forceUpdate()
+        })
+    }
+  }) // end Vue
+}, false) // end addEventListener
 </script>
 
 <!--
