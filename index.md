@@ -67,7 +67,7 @@ window.addEventListener('load', function() {
         }, 1000)
      },
      computed: {
-      member_ready: function() { = (!loading && member_data != null && len(member_data.keys) > 0) }
+      member_ready: function() { return (!loading && member_data != null && len(member_data.keys) > 0) }
     },
     methods: {
     doInitialUpdate: function() {
