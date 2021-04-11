@@ -19,6 +19,7 @@ tags: OWASP membership
    </div>
    <div id='member-info' v-if='member_ready'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
+     <br>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
      <strong>Email:</strong>{{ membership_data['emails'][0]['email'] }}<br>
      <strong>Address:</strong>{{ membership_data['address'] }}<br>
