@@ -24,11 +24,17 @@ tags: OWASP membership
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <br>
      <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
-     <strong>Email:</strong>{{ membership_data['emails'][0]['email'] }}<br>
-     <strong>Address:</strong>{{ membership_data['address'] }}<br>
-     <strong>Phone:</strong>{{ membership_data['phone_numbers'][0]['number'] }}<br>
+     <template v-for="item in membership_data['emails']">
+        <strong>Email:</strong>{{ item['email'] }}<br>
+     </template>
+     <template v-for="item in membership_data['address']">
+        <strong>Address:</strong>{{ item['address'] }}<br>
+     </template>
+     <template v-for="item in membership_data['phone_numbers']">
+        <strong>Phone:</strong>{{ item['number'] }}<br>
+     </template>
      <strong>Membership Type:</strong>{{ membership_data['membership_type'] }}<br>
-     <strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>
+     <!--<strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>  Agree with Dawn, start has no real relevance here-->
      <strong>Membership End:</strong>{{ membership_data['membership_end'] }}<br>
      <strong>Recurring:</strong>{{ membership_data['membership_recurring'] }}<br>
    </div>
@@ -85,7 +91,6 @@ window.addEventListener('load', function() {
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
-                alert(err)
                 this.errors = { error : 'These are not the droids you are looking for' }
                 this.loading = false
                 this.$forceUpdate()
