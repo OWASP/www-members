@@ -29,7 +29,7 @@ tags: OWASP membership
      </template>
      <section id='address' v-if="membership_data['address']">
       <strong>Address:</strong>{{ membership_data['address']['street'] }}<br>
-      {{ membership_data['address']['city']}}, {{ membership_data['address']['state']}}&nbsp;&nbsp;{{membership_data['address']['postal code']}}
+      {{ membership_data['address']['city']}}, {{ membership_data['address']['state']}}&nbsp;&nbsp;{{membership_data['address']['postal_code']}}&nbsp;&nbsp;{{membership_data['address']['country']}}
      </section>
      <template v-for="item in membership_data['phone_numbers']">
         <strong>Phone:</strong>{{ item['number'] }}<br>
