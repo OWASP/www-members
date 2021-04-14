@@ -23,21 +23,30 @@ tags: OWASP membership
    <div id='member-info' v-if='member_ready'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <br>
-     <strong>Member Number:</strong> {{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}<br>
-     <template v-for="item in membership_data['emails']">
-        <strong>Email:</strong>{{ item['email'] }}<br>
-     </template>
-     <section id='address' v-if="membership_data['address']">
-      <strong>Address:</strong>{{ membership_data['address']['street'] }}<br>
-      {{ membership_data['address']['city']}}, {{ membership_data['address']['state']}}&nbsp;&nbsp;{{membership_data['address']['postal_code']}}&nbsp;&nbsp;{{membership_data['address']['country']}}
-     </section>
-     <template v-for="item in membership_data['phone_numbers']">
-        <strong>Phone:</strong>{{ item['number'] }}<br>
-     </template>
-     <strong>Membership Type:</strong>{{ membership_data['membership_type'] }}<br>
+     <div class='label'>Member Number:</div><div class='info'>{{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}</div>
+     <div class='label'>Email:</div>
+     <div class='multi-info'>
+      <template v-for="item in membership_data['emails']">
+          {{ item['email'] }}<br>
+      </template>
+    </div>
+    <div class='label'>Address:</div>
+    <div class='multi-info'>
+      {{ membership_data['address']['street'] }}
+      {{ membership_data['address']['city']}},{{ membership_data['address']['state']}}&nbsp;&nbsp;{{membership_data['address']['postal_code']}}
+      {{membership_data['address']['country']}}
+    </div>
+    <div class='label'>Phone:</div>
+    <div class='multi-info'>
+      <template v-for="item in membership_data['phone_numbers']">
+          {{ item['number'] }}
+      </template>
+    </div>
+     <div class='label'>Membership Type:</div>
+     <div class='info'>{{ membership_data['membership_type'] }}</div>
      <!--<strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>  Agree with Dawn, start has no real relevance here-->
-     <strong>Membership End:</strong>{{ membership_data['membership_end'] }}<br>
-     <strong>Recurring:</strong>{{ membership_data['membership_recurring'] }}<br>
+     <div class='info'>Membership End:</div><div class='info'>{{ membership_data['membership_end'] }}</div>
+     <div class='info'>Recurring:</div><div class='info'>{{ membership_data['membership_recurring'] }}</div>
    </div>
    <div id='errors' v-if="Object.keys(errors).length">
       <strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>
