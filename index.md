@@ -18,8 +18,12 @@ tags: OWASP membership
 
 .label {
   font-weight: bold;
-  float: left;
   margin-right: 8px;
+}
+
+.info, .multi-info {
+  margin-bottom:16px;
+  margin-left: 75px;
 }
 
 label {
@@ -28,21 +32,37 @@ label {
 }
 
 button {
-  padding: 16px;
+  margin-right: 16px;
 }
 
 .small {
   padding: 2px 8px;
 }
 
-.sub-item{
-  margin-left: 75px;
+.errors {
+  padding-bottom: 24px;
+  padding-top: 12px;
+  border-top: 3px dotted red;
+}
+.error {
+  font-weight:bold;
+  color: darkred;
+  border-left: 5px solid red;
+  padding-left: 8px;
 }
 </style>
 {% raw %}
 <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-qr'>
    </div>
+   <div id='errors' v-if='errors.length > 0'>
+        <label>Please correct the following:</label>
+        <template v-for='err in errors'>
+              <template v-for='(value, name) in err'>
+                <div class='error'>{{value}}</div>
+              </template>
+        </template>
+     </div>
    <div id='member-info' v-if='member_ready && mode==0'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <br>
@@ -69,35 +89,38 @@ button {
     <div class='label'>Phone:</div>
     <div class='multi-info'>
       <template v-for="item in membership_data['phone_numbers']">
-          {{ item['number'] }}
+          <div class='sub-item'>{{ item['number'] }}</div>
       </template>
     </div>
     <div><button class='cta-button' v-if="mode!=1" v-on:click="switchMode">Edit Personal Information</button></div>
    </div>
+   <form class="form-container" v-on:submit.prevent="saveInformation">
    <div id='member-edit' v-if='member_ready && mode==1'>
-     <label for='memname'>Name:</label><input type='text' id='memname' v-bind:value="membership_data['name']"/>
+     <label for='memname'>Name:</label><input type='text' id='memname' v-model="membership_data['name']"/>
      <br>
      <label>Email:<button class='cta-button green small' v-on:click="addEmailItem()">+</button></label>
      <div class='multi-info'>
-      <template v-for="item in membership_data['emails']">
-          <input class='sub-item' type='text' v-bind:value="item['email']"/><button class='cta-button red small' v-on:click="removeEmailItem(item)">x</button><br>
+      <template v-for="item in membership_data['emails']" v-model="membership_data['emails']">
+          <input class='sub-item' type='text' v-model="item['email']"/><button class='cta-button red small' v-on:click="removeEmailItem(item)">x</button><br>
       </template>
     </div>
-    <div class='multi-info'>
-      <label for="street">Street:</label><input id='street' type='text' v-bind:value="membership_data['address']['street']"/><br>
-      <label for='city'>City:</label><input id='city' type='text' v-bind:value="membership_data['address']['city']"/><br>
-      <label for='state'>State:</label><input id='state' type='text' v-bind:value="membership_data['address']['state']"/><br>
-      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-bind:value="membership_data['address']['postal_code']"/><br>
-      <label for='country'>Country:</label><input id='country' type='text' v-bind:value="membership_data['address']['country']"/>
+    <label for='address'>Address:</label>
+    <div class='multi-info' id='address'>
+      <label for="street">Street:</label><input id='street' type='text' v-model="membership_data['address']['street']"/><br>
+      <label for='city'>City:</label><input id='city' type='text' v-model="membership_data['address']['city']"/><br>
+      <label for='state'>State:</label><input id='state' type='text' v-model="membership_data['address']['state']"/><br>
+      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="membership_data['address']['postal_code']"/><br>
+      <label for='country'>Country:</label><input id='country' type='text' v-model="membership_data['address']['country']"/>
     </div>
     <label>Phone:<button class='cta-button green small' v-on:click="addPhoneItem()">+</button></label>
     <div class='multi-info'>
-      <template v-for="item in membership_data['phone_numbers']">
-          <input class='sub-item' type='text' v-bind:value="item['number']"/><button class='cta-button red small' v-on:click="removePhoneItem(item)">x</button><br>
+      <template v-for="item in membership_data['phone_numbers']" v-model="membership_data['phone_numbers']">
+          <input class='sub-item' type='text' v-model="item['number']"/><button class='cta-button red small' v-on:click="removePhoneItem(item)">x</button><br>
       </template>
     </div>
-    <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button class='cta-button green' v-if="mode!=0" v-on:click="saveInformation">Save</button></div>
+    <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button type='submit' class='cta-button green' v-if="mode!=0">Save</button></div>
    </div>
+   </form>
    <div id='errors' v-if="Object.keys(errors).length">
       <strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>
    </div>
@@ -122,7 +145,7 @@ window.addEventListener('load', function() {
     el: '#membership-portal-app',
     data: {
       loading: true,
-      errors: {},
+      errors: [],
       membership_data: null,
       update_interval : null,
       mode: 0,
@@ -153,7 +176,7 @@ window.addEventListener('load', function() {
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
-                this.errors = { error : 'These are not the droids you are looking for' }
+                this.errors.push({message : err })
                 this.loading = false
                 // for now assuming this is local testing
                 /*
@@ -177,7 +200,9 @@ window.addEventListener('load', function() {
                           }
                       }
                   }, 1000, this.membership_data)
+                  this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
                 */
+                
                 this.$forceUpdate()
               })
         } // end if loading
@@ -186,37 +211,101 @@ window.addEventListener('load', function() {
       member_ready: function() { return (!this.loading && this.membership_data != null) }
     },
     methods:{
+      validate: function () {
+        if(this.membership_data['name'].length <= 0) {
+          error = { 'name':'Name must not be empty'}
+          this.errors.push(error)
+        }
+        if(this.membership_data['emails'].length <= 0) {
+          error = { 'email':'You must have at least one email.'}
+          this.errors.push(error)
+        }
+        if(this.membership_data['phone_numbers'].length <= 0) {
+          error = { 'email':'You must have at least one phone number.'}
+          this.errors.push(error)
+        }
+        if(this.membership_data['address']['street'].length <= 0 ||
+          this.membership_data['address']['city'].length <= 0 ||
+          this.membership_data['address']['state'].length <= 0 ||
+          this.membership_data['address']['postal_code'].length <= 0 ||
+          this.membership_data['address']['country'].length <= 0) {
+
+          error = { 'address':'Address must be complete.'}
+          this.errors.push(error) 
+        }
+
+        return this.errors.length == 0
+      },
       switchMode: function() { 
         this.mode = !this.mode
         if(this.saved_data) {
           this.membership_data = JSON.parse(JSON.stringify(this.saved_data))
-          this.saved_data = null
-          //this.$forceUpdate()
-        } 
+        }
+        this.errors = [] // why doesn't this set errors to empty?
+        this.$forceUpdate()
       },
       removePhoneItem: function(item) {
-        if(!this.saved_data) {
-          this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
+        if(this.membership_data['phone_numbers'].length <= 1) {
+          error = { phone :'You must have at least one phone number.' }
+          if(!this.errors.some(e => e.phone)) {
+            this.errors.push(error)
+          }
+          this.$forceUpdate()
+          return;
         }
+        
         this.membership_data['phone_numbers'].splice(this.membership_data['phone_numbers'].indexOf(item), 1)
         this.$forceUpdate()
       },
       addPhoneItem: function() {
+          this.errors = []
           this.membership_data['phone_numbers'].push({'number':''})
           this.$forceUpdate()
       },
       removeEmailItem: function(item){
-        if(!this.saved_data) {
-            this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
+        if(this.membership_data['emails'].length <= 1) {
+          error = { email :'You must have at least one email.' }
+           if(!this.errors.some(e => e.email)) {
+            this.errors.push(error)
           }
+          this.$forceUpdate()
+          return;
+        }
+
           this.membership_data['emails'].splice(this.membership_data['emails'].indexOf(item), 1)
           this.$forceUpdate()
       },
       addEmailItem: function() {
+          this.errors = []
           this.membership_data['emails'].push({'email':''})
           this.$forceUpdate()
       },
-      saveInformation: function() { alert('Saved!') }
+      saveInformation: function() {
+        this.$forceUpdate() 
+        if(this.validate()){
+          this.loading=true
+          const postData = {
+            params: {
+                authtoken: Cookies.get('CF_Authorization'),
+                membership_data: this.membership_data
+              }
+            }
+          axios.get('https://owaspadmin.azurewebsites.net/api/update-member-info?code=NRBl9EyVfVJYZCos5BuhquJ8KlPj/X35Isl7kNj6uk0Zr88xhPJZ5A==', postData)
+              .then(response => {
+                  this.loading=false
+                  this.mode = 0
+                  this.$forceUpdate()
+              })
+              .catch(err => {
+                //this.errors.push({message : 'These are not the droids you are looking for' })
+                this.loading = false
+                error = { 'error':err }
+                this.errors.push(error)
+                this.mode = 0
+                this.$forceUpdate()
+              })
+        } 
+      }
     } // end methods
   }) // end Vue
 }, false) // end addEventListener
