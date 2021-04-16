@@ -94,7 +94,7 @@ button {
     </div>
     <div><button class='cta-button' v-if="mode!=1" v-on:click="switchMode">Edit Personal Information</button></div>
    </div>
-   <form class="form-container" v-on:submit.prevent="saveInformation">
+   <!--<form class="form-container" v-on:submit.prevent="saveInformation">-->
    <div id='member-edit' v-if='member_ready && mode==1'>
      <label for='memname'>Name:</label><input type='text' id='memname' v-model="membership_data['name']"/>
      <br>
@@ -118,9 +118,9 @@ button {
           <input class='sub-item' type='text' v-model="item['number']"/><button class='cta-button red small' v-on:click="removePhoneItem(item)">x</button><br>
       </template>
     </div>
-    <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button type='submit' class='cta-button green' v-if="mode!=0">Save</button></div>
+    <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button class='cta-button green' v-if="mode!=0" v-on:click="saveInformation()">Save</button></div>
    </div>
-   </form>
+   <!--</form>-->
    <div id='loading' v-if='loading'>
       This may take a few moments...
       <button class='cta-button' style='width:80px;height:80px;'>
