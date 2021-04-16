@@ -121,9 +121,6 @@ button {
     <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button type='submit' class='cta-button green' v-if="mode!=0">Save</button></div>
    </div>
    </form>
-   <div id='errors' v-if="Object.keys(errors).length">
-      <strong>You may have gotten here but currently this site only works for a limited subset of members.  Come back later.</strong>
-   </div>
    <div id='loading' v-if='loading'>
       This may take a few moments...
       <button class='cta-button' style='width:80px;height:80px;'>
@@ -243,6 +240,7 @@ window.addEventListener('load', function() {
         }
         this.errors = [] // why doesn't this set errors to empty?
         this.$forceUpdate()
+        return false;
       },
       removePhoneItem: function(item) {
         if(this.membership_data['phone_numbers'].length <= 1) {
@@ -251,16 +249,18 @@ window.addEventListener('load', function() {
             this.errors.push(error)
           }
           this.$forceUpdate()
-          return;
+          return false;
         }
         
         this.membership_data['phone_numbers'].splice(this.membership_data['phone_numbers'].indexOf(item), 1)
         this.$forceUpdate()
+        return false;
       },
       addPhoneItem: function() {
           this.errors = []
           this.membership_data['phone_numbers'].push({'number':''})
           this.$forceUpdate()
+          return false;
       },
       removeEmailItem: function(item){
         if(this.membership_data['emails'].length <= 1) {
@@ -269,16 +269,18 @@ window.addEventListener('load', function() {
             this.errors.push(error)
           }
           this.$forceUpdate()
-          return;
+          return false;
         }
 
           this.membership_data['emails'].splice(this.membership_data['emails'].indexOf(item), 1)
           this.$forceUpdate()
+          return false;
       },
       addEmailItem: function() {
           this.errors = []
           this.membership_data['emails'].push({'email':''})
           this.$forceUpdate()
+          return false;
       },
       saveInformation: function() {
         this.$forceUpdate() 
