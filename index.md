@@ -66,7 +66,12 @@ button {
    <div id='member-info' v-if='member_ready && mode==0'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <br>
-     <div class='label'>Member Number:</div><div class='info'>{{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}</div>
+     <section v-if="membership_data['member_number']">
+      <div class='label'>Member Number:</div><div class='info'>{{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}</div>
+     </section>
+     <section v-else>
+      <div class='label'>Member Number:</div><div class='info'>Data not found.  Contact <a href='mailto:membership@owasp.com'>Member Services</a></div>
+     </section>
      <div class='label'>Membership Type:</div>
      <div class='info'>{{ membership_data['membership_type'] }}</div>
      <!--<strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>  Agree with Dawn, start has no real relevance here-->
@@ -184,7 +189,7 @@ window.addEventListener('load', function() {
                 this.membership_data['emails'] = [{'email':'harold.blankenship@owasp.com'},{'email':'kithwood@gmail.com'}]
                 this.membership_data['phone_numbers']=[{'number':'5126443053'}]
                 this.membership_data['membership_recurring']='no'
-                this.membership_data['member_number'] = 'owasp.org'
+                //this.membership_data['member_number'] = 'owasp.org'
                 this.membership_data['address'] = {'street':'123 street', 'city':'My City', 'state':'My State', 'postal_code':'12345', 'country':'My Country'}
                 this.membership_data['member-qr'] = 'https://owasp.org'
                 
