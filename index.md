@@ -86,10 +86,10 @@ button {
     <div class='label'>Address:</div>
     <div class='multi-info'>
       <div class='sub-item'>{{ member_street_address }}</div>
-      <div class='sub-item'>{{ membership_data['address']['city']}}</div>
-      <div class='sub-item'>{{ membership_data['address']['state']}}</div>
-      <div class='sub-item'>{{membership_data['address']['postal_code']}}</div>
-      <div class='sub-item'>{{membership_data['address']['country']}}</div>
+      <div class='sub-item'>{{ member_city_address}}</div>
+      <div class='sub-item'>{{ member_state_address}}</div>
+      <div class='sub-item'>{{member_postalcode_address}}</div>
+      <div class='sub-item'>{{member_country_address}}</div>
     </div>
     <div class='label'>Phone:</div>
     <div class='multi-info'>
@@ -112,10 +112,10 @@ button {
     <label for='address'>Address:</label>
     <div class='multi-info' id='address'>
       <label for="street">Street:</label><input id='street' type='text' v-model="member_street_address"/><br>
-      <label for='city'>City:</label><input id='city' type='text' v-model="membership_data['address']['city']"/><br>
-      <label for='state'>State:</label><input id='state' type='text' v-model="membership_data['address']['state']"/><br>
-      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="membership_data['address']['postal_code']"/><br>
-      <label for='country'>Country:</label><input id='country' type='text' v-model="membership_data['address']['country']"/>
+      <label for='city'>City:</label><input id='city' type='text' v-model="member_city_address']"/><br>
+      <label for='state'>State:</label><input id='state' type='text' v-model="member_state_address']"/><br>
+      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="member_postalcode_address']"/><br>
+      <label for='country'>Country:</label><input id='country' type='text' v-model="member_country_address']"/>
     </div>
     <label>Phone:<button class='cta-button green small' v-on:click="addPhoneItem()">+</button></label>
     <div class='multi-info'>
@@ -214,6 +214,30 @@ window.addEventListener('load', function() {
       member_street_address: function() {
           if(this.membership_data['address'] && this.membership_data['address']['street'])
             return this.membership_data['address']['street'];
+           
+          return '';
+      },
+      member_city_address: function() {
+          if(this.membership_data['address'] && this.membership_data['address']['city'])
+            return this.membership_data['address']['city'];
+           
+          return '';
+      },
+      member_state_address: function() {
+          if(this.membership_data['address'] && this.membership_data['address']['state'])
+            return this.membership_data['address']['state'];
+           
+          return '';
+      },
+      member_postalcode_address: function() {
+          if(this.membership_data['address'] && this.membership_data['address']['postal_code'])
+            return this.membership_data['address']['postal_code'];
+           
+          return '';
+      },
+      member_country_address: function() {
+          if(this.membership_data['address'] && this.membership_data['address']['country'])
+            return this.membership_data['address']['country'];
            
           return '';
       }
