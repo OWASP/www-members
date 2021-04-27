@@ -85,7 +85,7 @@ button {
     </div>
     <div class='label'>Address:</div>
     <div class='multi-info'>
-      <div class='sub-item'>{{ membership_data['address']['street'] }}</div>
+      <div class='sub-item'>{{ member_street_address }}</div>
       <div class='sub-item'>{{ membership_data['address']['city']}}</div>
       <div class='sub-item'>{{ membership_data['address']['state']}}</div>
       <div class='sub-item'>{{membership_data['address']['postal_code']}}</div>
@@ -111,7 +111,7 @@ button {
     </div>
     <label for='address'>Address:</label>
     <div class='multi-info' id='address'>
-      <label for="street">Street:</label><input id='street' type='text' v-model="membership_data['address']['street']"/><br>
+      <label for="street">Street:</label><input id='street' type='text' v-model="member_street_address"/><br>
       <label for='city'>City:</label><input id='city' type='text' v-model="membership_data['address']['city']"/><br>
       <label for='state'>State:</label><input id='state' type='text' v-model="membership_data['address']['state']"/><br>
       <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="membership_data['address']['postal_code']"/><br>
@@ -210,7 +210,13 @@ window.addEventListener('load', function() {
         } // end if loading
      },
      computed: {
-      member_ready: function() { return (!this.loading && this.membership_data != null) }
+      member_ready: function() { return (!this.loading && this.membership_data != null) },
+      member_street_address: function() {
+          if(this.membership_data['address'] && this.membership_data['address']['street'])
+            return this.membership_data['address']['street'];
+           
+          return '';
+      }
     },
     methods:{
       validate: function () {
