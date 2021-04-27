@@ -112,10 +112,10 @@ button {
     <label for='address'>Address:</label>
     <div class='multi-info' id='address'>
       <label for="street">Street:</label><input id='street' type='text' v-model="member_street_address"/><br>
-      <label for='city'>City:</label><input id='city' type='text' v-model="member_city_address']"/><br>
-      <label for='state'>State:</label><input id='state' type='text' v-model="member_state_address']"/><br>
-      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="member_postalcode_address']"/><br>
-      <label for='country'>Country:</label><input id='country' type='text' v-model="member_country_address']"/>
+      <label for='city'>City:</label><input id='city' type='text' v-model="member_city_address"/><br>
+      <label for='state'>State:</label><input id='state' type='text' v-model="member_state_address"/><br>
+      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="member_postalcode_address"/><br>
+      <label for='country'>Country:</label><input id='country' type='text' v-model="member_country_address"/>
     </div>
     <label>Phone:<button class='cta-button green small' v-on:click="addPhoneItem()">+</button></label>
     <div class='multi-info'>
