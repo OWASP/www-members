@@ -99,13 +99,15 @@ button {
         <div>No membership data found.</div>
         <a href='https://owasp.org/membership/'><button class='cta-button'>Renew Now</button></a>
      </section>
-     <div class='info-section'>
+     </div>
+     <div class='info-section' v-if='member_ready && mode==0'>
      <h3 class='section-label'>Personal Information</h3>
      <div class='label'>Email:</div>
      <div class='multi-info'>
       <template v-for="item in membership_data['emails']">
           <div class='sub-item'>{{ item['email'] }}</div>
       </template>
+      </div>
       <div class='label'>Address:</div>
       <div class='multi-info'>
         <div class='sub-item'>{{ member_street_address }}</div>
@@ -122,8 +124,6 @@ button {
       </div>
       <div><button class='cta-button' v-if="mode!=1" v-on:click="switchMode">Edit Personal Information</button></div>
     </div>
-   </div>
-   </div>
    <!--<form class="form-container" v-on:submit.prevent="saveInformation">-->
 
 
