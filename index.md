@@ -62,7 +62,11 @@ button {
                 <div class='error'>{{value}}</div>
               </template>
         </template>
-     </div>
+   </div>
+   <div id='member-not-found' v-if='!member_ready && mode==0 && !loading'>
+      No membership was found or your membership has expired.  Please <a href="https://owasp.org/membership/"><button>Join Us</button></a> <br>
+      If you feel this message is in error, contact <a href='mailto:membership@owasp.com'>Member Services</a>
+   </div>
    <div id='member-info' v-if='member_ready && mode==0'>
      <h3>Welcome, {{ membership_data['name'] }}</h3>
      <br>
@@ -164,10 +168,10 @@ window.addEventListener('load', function() {
               .then(response => {
                   this.membership_data = response.data
                   this.loading=false
-                 
+                  
                   this.$forceUpdate()
                   setTimeout(function(membership_data) { 
-                      if(membership_data) {
+                      if(membership_data && membership_data['name']) {
                           el = kjua({text: membership_data['member_number']});
                           div = document.getElementById('member-qr');
                           if(div) {
@@ -210,7 +214,7 @@ window.addEventListener('load', function() {
         } // end if loading
      },
      computed: {
-      member_ready: function() { return (!this.loading && this.membership_data != null) },
+      member_ready: function() { return (!this.loading && this.membership_data != null && this.membership_data['name']) },
       member_street_address: function() {
           if(this.membership_data['address'] && this.membership_data['address']['street'])
             return this.membership_data['address']['street'];
