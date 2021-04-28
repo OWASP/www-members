@@ -50,9 +50,21 @@ button {
   border-left: 5px solid red;
   padding-left: 8px;
 }
+
+.info-section {
+  border: 3px solid darkblue;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 40px;
+}
+.section-label {
+  margin-top: -20px;
+  background: white;
+}
 </style>
+
 {% raw %}
-<div id="membership-portal-app" style="margin: 0px;" v-cloak>
+  <div id="membership-portal-app" style="margin: 0px;" v-cloak>
    <div id='member-qr'>
    </div>
    <div id='errors' v-if='errors.length > 0'>
@@ -63,12 +75,12 @@ button {
               </template>
         </template>
    </div>
-   <div id='member-not-found' v-if='!member_ready && mode==0 && !loading'>
+   <div id='member-not-found' v-if='!member_ready && mode==0' >
       No membership was found or your membership has expired.  Please <a href="https://owasp.org/membership/"><button class='cta-button'>Join Us</button></a> <br>
       If you feel this message is in error, contact <a href='mailto:membership@owasp.com'>Member Services</a>
    </div>
-   <div id='member-info' v-if='member_ready && mode==0'>
-     <h3>Welcome, {{ membership_data['name'] }}</h3>
+   <div id='member-info' class='info-section' v-if='member_ready && mode==0'>
+     <h3 class='section-label'>Welcome, {{ membership_data['name'] }}</h3>
      <br>
      <section v-if="membership_data['member_number']">
       <div class='label'>Member Number:</div><div class='info'>{{ membership_data['member_number'].substring(membership_data['member_number'].lastIndexOf('/') + 1) }}</div>
@@ -80,36 +92,41 @@ button {
      <section id='membership' v-if="membership_data['membership_type']">
         <div class='info'>{{ membership_data['membership_type'] }}</div>
         <div class='label'>Membership End:</div><div class='info'>{{ membership_data['membership_end'] }}</div>
-        <div v-if="renewal_near" class='info'><a href='https://owasp.org/membership/'><button class='cta-button'>Renew Now</button></a></div>
+        <div v-if="renewal_near"><a href='https://owasp.org/membership/'><button class='cta-button'>Renew Now</button></a></div>
         <div class='label' v-if="membership_data['membership_recurring']=='yes'">Manage <a href='#'>TODO: Provide link to Recurring Subscription</a></div>
      </section>
      <section v-else>
         <div>No membership data found.</div>
         <a href='https://owasp.org/membership/'><button class='cta-button'>Renew Now</button></a>
      </section>
+     <div class='info-section'>
+     <h3 class='section-label'>Personal Information</h3>
      <div class='label'>Email:</div>
      <div class='multi-info'>
       <template v-for="item in membership_data['emails']">
           <div class='sub-item'>{{ item['email'] }}</div>
       </template>
+      <div class='label'>Address:</div>
+      <div class='multi-info'>
+        <div class='sub-item'>{{ member_street_address }}</div>
+        <div class='sub-item'>{{ member_city_address}}</div>
+        <div class='sub-item'>{{ member_state_address}}</div>
+        <div class='sub-item'>{{member_postalcode_address}}</div>
+        <div class='sub-item'>{{member_country_address}}</div>
+      </div>
+      <div class='label'>Phone:</div>
+      <div class='multi-info'>
+        <template v-for="item in membership_data['phone_numbers']">
+            <div class='sub-item'>{{ item['number'] }}</div>
+        </template>
+      </div>
+      <div><button class='cta-button' v-if="mode!=1" v-on:click="switchMode">Edit Personal Information</button></div>
     </div>
-    <div class='label'>Address:</div>
-    <div class='multi-info'>
-      <div class='sub-item'>{{ member_street_address }}</div>
-      <div class='sub-item'>{{ member_city_address}}</div>
-      <div class='sub-item'>{{ member_state_address}}</div>
-      <div class='sub-item'>{{member_postalcode_address}}</div>
-      <div class='sub-item'>{{member_country_address}}</div>
-    </div>
-    <div class='label'>Phone:</div>
-    <div class='multi-info'>
-      <template v-for="item in membership_data['phone_numbers']">
-          <div class='sub-item'>{{ item['number'] }}</div>
-      </template>
-    </div>
-    <div><button class='cta-button' v-if="mode!=1" v-on:click="switchMode">Edit Personal Information</button></div>
+   </div>
    </div>
    <!--<form class="form-container" v-on:submit.prevent="saveInformation">-->
+
+
    <div id='member-edit' v-if='member_ready && mode==1'>
      <label for='memname'>Name:</label><input type='text' id='memname' v-model="membership_data['name']"/>
      <br>
@@ -118,22 +135,22 @@ button {
       <template v-for="item in membership_data['emails']" v-model="membership_data['emails']">
           <input class='sub-item' type='text' v-model="item['email']"/><button class='cta-button red small' v-on:click="removeEmailItem(item)">x</button><br>
       </template>
-    </div>
-    <label for='address'>Address:</label>
-    <div class='multi-info' id='address'>
-      <label for="street">Street:</label><input id='street' type='text' v-model="member_street_address"/><br>
-      <label for='city'>City:</label><input id='city' type='text' v-model="member_city_address"/><br>
-      <label for='state'>State:</label><input id='state' type='text' v-model="member_state_address"/><br>
-      <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="member_postalcode_address"/><br>
-      <label for='country'>Country:</label><input id='country' type='text' v-model="member_country_address"/>
-    </div>
-    <label>Phone:<button class='cta-button green small' v-on:click="addPhoneItem()">+</button></label>
-    <div class='multi-info'>
-      <template v-for="item in membership_data['phone_numbers']" v-model="membership_data['phone_numbers']">
-          <input class='sub-item' type='text' v-model="item['number']"/><button class='cta-button red small' v-on:click="removePhoneItem(item)">x</button><br>
-      </template>
-    </div>
-    <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button class='cta-button green' v-if="mode!=0" v-on:click="saveInformation()">Save</button></div>
+      </div>
+      <label for='address'>Address:</label>
+      <div class='multi-info' id='address'>
+        <label for="street">Street:</label><input id='street' type='text' v-model="member_street_address"/><br>
+        <label for='city'>City:</label><input id='city' type='text' v-model="member_city_address"/><br>
+        <label for='state'>State:</label><input id='state' type='text' v-model="member_state_address"/><br>
+        <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="member_postalcode_address"/><br>
+        <label for='country'>Country:</label><input id='country' type='text' v-model="member_country_address"/>
+      </div>
+      <label>Phone:<button class='cta-button green small' v-on:click="addPhoneItem()">+</button></label>
+      <div class='multi-info'>
+        <template v-for="item in membership_data['phone_numbers']" v-model="membership_data['phone_numbers']">
+            <input class='sub-item' type='text' v-model="item['number']"/><button class='cta-button red small' v-on:click="removePhoneItem(item)">x</button><br>
+        </template>
+      </div>
+      <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button class='cta-button green' v-if="mode!=0" v-on:click="saveInformation()">Save</button></div>
    </div>
    <!--</form>-->
    <div id='loading' v-if='loading'>
@@ -144,7 +161,7 @@ button {
         </div>
       </button>
    </div>
-</div>
+  </div>
 {% endraw %}
 
 <script src="https://js.stripe.com/v3"></script>
@@ -185,13 +202,13 @@ window.addEventListener('load', function() {
                           }
                       }
                   }, 1000, this.membership_data)
-                  //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
                 //this.errors.push({message : err })
                 this.loading = false
                 // for now assuming this is local testing
-                /*this.membership_data = {}
+                /*
+                this.membership_data = {}
                 this.membership_data['membership_type'] = 'one'
                 this.membership_data['name'] = 'Harold Test Data'
                 this.membership_data['membership_end'] = '2021-04-22'
