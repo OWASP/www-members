@@ -64,7 +64,7 @@ button {
         </template>
    </div>
    <div id='member-not-found' v-if='!member_ready && mode==0 && !loading'>
-      No membership was found or your membership has expired.  Please <a href="https://owasp.org/membership/"><button>Join Us</button></a> <br>
+      No membership was found or your membership has expired.  Please <a href="https://owasp.org/membership/"><button class='cta-button'>Join Us</button></a> <br>
       If you feel this message is in error, contact <a href='mailto:membership@owasp.com'>Member Services</a>
    </div>
    <div id='member-info' v-if='member_ready && mode==0'>
@@ -77,10 +77,16 @@ button {
       <div class='label'>Member Number:</div><div class='info'>Data not found.  Contact <a href='mailto:membership@owasp.com'>Member Services</a></div>
      </section>
      <div class='label'>Membership Type:</div>
-     <div class='info'>{{ membership_data['membership_type'] }}</div>
-     <!--<strong>Membership Start:</strong>{{ membership_data['membership_start'] }}<br>  Agree with Dawn, start has no real relevance here-->
-     <div class='label'>Membership End:</div><div class='info'>{{ membership_data['membership_end'] }}</div>
-     <div class='label'>Recurring:</div><div class='info'>{{ membership_data['membership_recurring'] }}</div>
+     <section id='membership' v-if="membership_data['membership_type']">
+        <div class='info'>{{ membership_data['membership_type'] }}</div>
+        <div class='label'>Membership End:</div><div class='info'>{{ membership_data['membership_end'] }}</div>
+        <div v-if="renewal_near" class='info'><a href='https://owasp.org/membership/'><button class='cta-button'>Renew Now</button></a></div>
+        <div class='label' v-if="membership_data['membership_recurring']=='yes'">Manage <a href='#'>TODO: Provide link to Recurring Subscription</a></div>
+     </section>
+     <section v-else>
+        <div>No membership data found.</div>
+        <a href='https://owasp.org/membership/'><button class='cta-button'>Renew Now</button></a>
+     </section>
      <div class='label'>Email:</div>
      <div class='multi-info'>
       <template v-for="item in membership_data['emails']">
@@ -182,23 +188,22 @@ window.addEventListener('load', function() {
                   //$('#member-qr').kjua({text: memdata["member_number"]});
               })
               .catch(err => {
-                this.errors.push({message : err })
+                //this.errors.push({message : err })
                 this.loading = false
                 // for now assuming this is local testing
-                /*
-                this.membership_data = {}
+                /*this.membership_data = {}
                 this.membership_data['membership_type'] = 'one'
                 this.membership_data['name'] = 'Harold Test Data'
-                this.membership_data['membership_end'] = '2022-03-22'
+                this.membership_data['membership_end'] = '2021-04-22'
                 this.membership_data['emails'] = [{'email':'harold.blankenship@owasp.com'},{'email':'kithwood@gmail.com'}]
                 this.membership_data['phone_numbers']=[{'number':'5126443053'}]
                 this.membership_data['membership_recurring']='no'
-                //this.membership_data['member_number'] = 'owasp.org'
+                this.membership_data['member_number'] = 'owasp.org'
                 this.membership_data['address'] = {'street':'123 street', 'city':'My City', 'state':'My State', 'postal_code':'12345', 'country':'My Country'}
                 this.membership_data['member-qr'] = 'https://owasp.org'
                 
                 setTimeout(function(membership_data) { 
-                      if(membership_data) {
+                      if(membership_data && membership_data['name']) {
                           el = kjua({text: membership_data['member_number']});
                           div = document.getElementById('member-qr');
                           if(div) {
@@ -208,7 +213,6 @@ window.addEventListener('load', function() {
                   }, 1000, this.membership_data)
                   this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
                 */
-                
                 this.$forceUpdate()
               })
         } // end if loading
@@ -244,6 +248,15 @@ window.addEventListener('load', function() {
             return this.membership_data['address']['country'];
            
           return '';
+      },
+      renewal_near: function() { 
+        if(this.membership_data['membership_end']){
+          var dt = Date.parse(this.membership_data['membership_end'])
+          var diff = Math.abs(dt - Date.now());
+          return (diff / (1000 * 60 * 60 * 24)) < 30;
+        }
+        else
+          return false;
       }
     },
     methods:{
