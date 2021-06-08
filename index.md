@@ -61,6 +61,10 @@ button {
   margin-top: -20px;
   background: white;
 }
+
+.capitalize {
+    text-transform: capitalize;
+}
 </style>
 
 {% raw %}
@@ -127,9 +131,6 @@ button {
       </div>
       <div><button class='cta-button' v-if="mode!=1" v-on:click="switchMode">Edit Personal Information</button></div>
     </div>
-   <!--<form class="form-container" v-on:submit.prevent="saveInformation">-->
-
-
    <div id='member-edit' v-if='member_ready && mode==1'>
      <label for='memname'>Name:</label><input type='text' id='memname' v-model="membership_data['name']"/>
      <br>
@@ -155,7 +156,16 @@ button {
       </div>
       <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button class='cta-button green' v-if="mode!=0" v-on:click="saveInformation()">Save</button></div>
    </div>
-   <!--</form>-->
+  
+   <div class='info-section'  v-if="membership_data['leader_info'] && membership_data['leader_info'].length > 0"> <!-- start leader section -->
+    <h3 class='section-label'>Leadership Information</h3>
+    <template v-for="item in membership_data['leader_info']" v-model="membership_data['leader_info']">
+        <div class='label capitalize'>{{ item['group-type']}} Leader</div>
+        <div class='info'><a v-bind:href="item['group_url']">{{ item['group']}}</a></div>
+    </template>
+     
+   </div> <!-- end leader section -->
+
    <div id='loading' v-if='loading'>
       This may take a few moments...
       <button class='cta-button' style='width:80px;height:80px;'>
@@ -211,10 +221,8 @@ window.addEventListener('load', function() {
               .catch(err => {
                 //this.errors.push({message : err })
                 this.loading = false
-                alert(err);
-                if(err.indexOf('expired') >= 0) { 
-                  this.member_logged_out = true
-                }
+                //alert(err);
+                
                 
                 // for now assuming this is local testing
                 /*
@@ -228,6 +236,29 @@ window.addEventListener('load', function() {
                 this.membership_data['member_number'] = 'owasp.org'
                 this.membership_data['address'] = {'street':'123 street', 'city':'My City', 'state':'My State', 'postal_code':'12345', 'country':'My Country'}
                 this.membership_data['member-qr'] = 'https://owasp.org'
+                this.membership_data['leader_info'] = [{
+                                                          "name": "Harold Blankenship",
+                                                          "email": "harold.blankenship@owasp.com",
+                                                          "group": "OWASP KLAP",
+                                                          "group-type": "project",
+                                                          "group_url": "https://owasp.org/www-projectchapter-example/"
+                                                      },
+                                                      {
+                                                          "name": "Harold Blankenship",
+                                                          "email": "harold.blankenship@owasp.com",
+                                                          "group": "OWASP TRaP",
+                                                          "group-type": "project",
+                                                          "group_url": "https://owasp.org/www-projectchapter-example/"
+                                                      },
+                                                      {
+                                                          "name": "Harold Blankenship",
+                                                          "email": "harold.blankenship@owasp.com",
+                                                          "group": "OWASP New Braunfels",
+                                                          "group-type": "chapter",
+                                                          "group_url": "https://owasp.org/www-projectchapter-example/"
+                                                      }]
+                this.member_logged_out = false
+                this.loading=false
                 
                 setTimeout(function(membership_data) { 
                       if(membership_data && membership_data['name']) {
@@ -239,7 +270,7 @@ window.addEventListener('load', function() {
                       }
                   }, 1000, this.membership_data)
                   this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
-                 */
+                  */
                 this.$forceUpdate()
               })
         } // end if loading
