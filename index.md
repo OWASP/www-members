@@ -75,9 +75,12 @@ button {
               </template>
         </template>
    </div>
-   <div id='member-not-found' v-if='!member_ready && mode==0 && !loading' >
+   <div id='member-not-found' v-if='!member_ready && mode==0 && !loading && !member_logged_out' >
       No membership was found or your membership has expired.  Please <a href="https://owasp.org/membership/"><button class='cta-button'>Join Us</button></a> <br>
       If you feel this message is in error, contact <a href='mailto:membership@owasp.com'>Member Services</a>
+   </div>
+   <div id='member-logged-out' v-if='member_logged_out && mode==0 && !loading' >
+      Your session has expired.  Please <a href="https://members.owasp.org/"><button class='cta-button'>Log In</button></a> <br>
    </div>
    <div id='member-info' class='info-section' v-if='member_ready && mode==0'>
      <h3 class='section-label'>Welcome, {{ membership_data['name'] }}</h3>
@@ -179,6 +182,7 @@ window.addEventListener('load', function() {
       update_interval : null,
       mode: 0,
       saved_data: null,
+      member_logged_out: false
     },
     created: function() {
         if(this.loading){
@@ -190,6 +194,7 @@ window.addEventListener('load', function() {
             axios.get('https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==', postData)
               .then(response => {
                   this.membership_data = response.data
+                  this.member_logged_out = false
                   this.loading=false
                   
                   this.$forceUpdate()
@@ -206,6 +211,11 @@ window.addEventListener('load', function() {
               .catch(err => {
                 //this.errors.push({message : err })
                 this.loading = false
+                alert(err);
+                if(err.indexOf('expired') >= 0) { 
+                  this.member_logged_out = true
+                }
+                
                 // for now assuming this is local testing
                 /*
                 this.membership_data = {}
