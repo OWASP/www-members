@@ -156,15 +156,15 @@ button {
       </div>
       <div><button class='cta-button' style='padding-right:25px;' v-if="mode!=0" v-on:click="switchMode">Cancel</button><button class='cta-button green' v-if="mode!=0" v-on:click="saveInformation()">Save</button></div>
    </div>
-  
-   <div class='info-section'  v-if="membership_data['leader_info'] && membership_data['leader_info'].length > 0"> <!-- start leader section -->
+  <!-- start leader section -->
+   <div class='info-section'  v-if="membership_data && membership_data['leader_info'] && membership_data['leader_info'].length > 0"> 
     <h3 class='section-label'>Leadership Information</h3>
     <template v-for="item in membership_data['leader_info']" v-model="membership_data['leader_info']">
         <div class='label capitalize'>{{ item['group-type']}} Leader</div>
         <div class='info'><a v-bind:href="item['group_url']">{{ item['group']}}</a></div>
     </template>
-     
-   </div> <!-- end leader section -->
+   </div> 
+    <!-- end leader section -->
 
    <div id='loading' v-if='loading'>
       This may take a few moments...
