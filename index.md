@@ -2,7 +2,7 @@
 
 layout: col-sidebar
 title: OWASP Membership Portal (WIP)
-tags: OWASP membership
+tags: OWASP membership, owspmem
 
 ---
 
@@ -117,11 +117,11 @@ button {
       </div>
       <div class='label'>Address:</div>
       <div class='multi-info'>
-        <div class='sub-item'>{{ member_street_address }}</div>
-        <div class='sub-item'>{{ member_city_address}}</div>
-        <div class='sub-item'>{{ member_state_address}}</div>
-        <div class='sub-item'>{{member_postalcode_address}}</div>
-        <div class='sub-item'>{{member_country_address}}</div>
+        <div class='sub-item'>{{ membership_data['address']['street'] }}</div>
+        <div class='sub-item'>{{ membership_data['address']['city']}}</div>
+        <div class='sub-item'>{{ membership_data['address']['state']}}</div>
+        <div class='sub-item'>{{ membership_data['address']['postal_code']}}</div>
+        <div class='sub-item'>{{ membership_data['address']['country']}}</div>
       </div>
       <div class='label'>Phone:</div>
       <div class='multi-info'>
@@ -142,11 +142,11 @@ button {
       </div>
       <label for='address'>Address:</label>
       <div class='multi-info' id='address'>
-        <label for="street">Street:</label><input id='street' type='text' v-model="member_street_address"/><br>
-        <label for='city'>City:</label><input id='city' type='text' v-model="member_city_address"/><br>
-        <label for='state'>State:</label><input id='state' type='text' v-model="member_state_address"/><br>
-        <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="member_postalcode_address"/><br>
-        <label for='country'>Country:</label><input id='country' type='text' v-model="member_country_address"/>
+        <label for="street">Street:</label><input id='street' type='text' v-model="membership_data['address']['street']"/><br>
+        <label for='city'>City:</label><input id='city' type='text' v-model="membership_data['address']['city']"/><br>
+        <label for='state'>State:</label><input id='state' type='text' v-model="membership_data['address']['state']"/><br>
+        <label for='postal_code'>Postal Code:</label><input id='postal_code' type='text' v-model="membership_data['address']['postal_code']"/><br>
+        <label for='country'>Country:</label><input id='country' type='text' v-model="membership_data['address']['country']"/>
       </div>
       <label>Phone:<button class='cta-button green small' v-on:click="addPhoneItem()">+</button></label>
       <div class='multi-info'>
@@ -219,11 +219,8 @@ window.addEventListener('load', function() {
                   }, 1000, this.membership_data)
               })
               .catch(err => {
-                //this.errors.push({message : err })
                 this.loading = false
-                //alert(err);
-                
-                
+                              
                 // for now assuming this is local testing
                 /*
                 this.membership_data = {}
@@ -234,7 +231,7 @@ window.addEventListener('load', function() {
                 this.membership_data['phone_numbers']=[{'number':'5126443053'}]
                 this.membership_data['membership_recurring']='no'
                 this.membership_data['member_number'] = 'owasp.org'
-                this.membership_data['address'] = {'street':'123 street', 'city':'My City', 'state':'My State', 'postal_code':'12345', 'country':'My Country'}
+                this.membership_data['address'] = {'street':'', 'city':'', 'state':'', 'postal_code':'', 'country':''}
                 this.membership_data['member-qr'] = 'https://owasp.org'
                 this.membership_data['leader_info'] = [{
                                                           "name": "Harold Blankenship",
@@ -270,7 +267,8 @@ window.addEventListener('load', function() {
                       }
                   }, 1000, this.membership_data)
                   this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
-                  */
+                */
+
                 this.$forceUpdate()
               })
         } // end if loading
