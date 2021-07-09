@@ -275,36 +275,6 @@ window.addEventListener('load', function() {
      },
      computed: {
       member_ready: function() { return (!this.loading && this.membership_data != null && this.membership_data['name']) },
-      member_street_address: function() {
-          if(this.membership_data['address'] && this.membership_data['address']['street'])
-            return this.membership_data['address']['street'];
-           
-          return '';
-      },
-      member_city_address: function() {
-          if(this.membership_data['address'] && this.membership_data['address']['city'])
-            return this.membership_data['address']['city'];
-           
-          return '';
-      },
-      member_state_address: function() {
-          if(this.membership_data['address'] && this.membership_data['address']['state'])
-            return this.membership_data['address']['state'];
-           
-          return '';
-      },
-      member_postalcode_address: function() {
-          if(this.membership_data['address'] && this.membership_data['address']['postal_code'])
-            return this.membership_data['address']['postal_code'];
-           
-          return '';
-      },
-      member_country_address: function() {
-          if(this.membership_data['address'] && this.membership_data['address']['country'])
-            return this.membership_data['address']['country'];
-           
-          return '';
-      },
       renewal_near: function() { 
         if(this.membership_data['membership_end']){
           var dt = Date.parse(this.membership_data['membership_end'])
