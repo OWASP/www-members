@@ -228,7 +228,7 @@ window.addEventListener('load', function() {
                 this.membership_data['name'] = 'Harold Test Data'
                 this.membership_data['membership_end'] = '2021-04-22'
                 this.membership_data['emails'] = [{'email':'harold.blankenship@owasp.com'},{'email':'kithwood@gmail.com'}]
-                this.membership_data['phone_numbers']=[{'number':'5126443053'}]
+                //this.membership_data['phone_numbers']=[{'number':'5126443053'}]
                 this.membership_data['membership_recurring']='no'
                 this.membership_data['member_number'] = 'owasp.org'
                 this.membership_data['address'] = {'street':'', 'city':'', 'state':'', 'postal_code':'', 'country':''}
@@ -267,7 +267,7 @@ window.addEventListener('load', function() {
                       }
                   }, 1000, this.membership_data)
                   this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
-                */
+                //*/
 
                 this.$forceUpdate()
               })
@@ -287,21 +287,23 @@ window.addEventListener('load', function() {
     },
     methods:{
       validate: function () {
+        this.errors = []
+        
         if(this.membership_data['name'].length <= 0) {
           error = { 'name':'Name must not be empty'}
           this.errors.push(error)
         }
-        if(this.membership_data['emails'].length <= 0) {
+        
+        if(!('emails' in this.membership_data) || this.membership_data['emails'].length <= 0) {
           error = { 'email':'You must have at least one email.'}
           this.errors.push(error)
         }
-        if(this.membership_data['phone_numbers'].length <= 0) {
+        if(!('phone_numbers' in this.membership_data) || this.membership_data['phone_numbers'].length <= 0) {
           error = { 'email':'You must have at least one phone number.'}
           this.errors.push(error)
         }
-        if(this.membership_data['address']['street'].length <= 0 ||
+        if(!('address' in this.membership_data) || this.membership_data['address']['street'].length <= 0 ||
           this.membership_data['address']['city'].length <= 0 ||
-          this.membership_data['address']['state'].length <= 0 ||
           this.membership_data['address']['postal_code'].length <= 0 ||
           this.membership_data['address']['country'].length <= 0) {
 
@@ -326,6 +328,7 @@ window.addEventListener('load', function() {
           if(!this.errors.some(e => e.phone)) {
             this.errors.push(error)
           }
+          this.errors = []
           this.$forceUpdate()
           return false;
         }
@@ -336,6 +339,8 @@ window.addEventListener('load', function() {
       },
       addPhoneItem: function() {
           this.errors = []
+          if(!('phone_numbers' in this.membership_data))
+            this.membership_data['phone_numbers'] = []
           this.membership_data['phone_numbers'].push({'number':''})
           this.$forceUpdate()
           return false;
@@ -346,6 +351,7 @@ window.addEventListener('load', function() {
            if(!this.errors.some(e => e.email)) {
             this.errors.push(error)
           }
+          this.errors = []
           this.$forceUpdate()
           return false;
         }
@@ -356,6 +362,8 @@ window.addEventListener('load', function() {
       },
       addEmailItem: function() {
           this.errors = []
+          if(!('emails' in this.membership_data))
+            this.membership_data['emails'] = []
           this.membership_data['emails'].push({'email':''})
           this.$forceUpdate()
           return false;
