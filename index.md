@@ -80,7 +80,8 @@ button {
         </template>
    </div>
    <div id='member-not-found' v-if='!member_ready && mode==0 && !loading && !member_logged_out' >
-      No membership was found or your membership has expired.  Please <a href="https://owasp.org/membership/"><button class='cta-button'>Join Us</button></a> <br>
+      No membership was found or your membership has expired. Please <a href="https://owasp.org/membership/"><button class='cta-button'>Join Us</button></a> <br>
+      If you are a leader who has not applied for complimentary membership, you may do so at <a href="https://owasp.org/membership/">Become a Member</a><br>
       If you feel this message is in error, contact <a href='mailto:membership@owasp.com'>Member Services</a>
    </div>
    <div id='member-logged-out' v-if='member_logged_out && mode==0 && !loading' >
@@ -176,6 +177,8 @@ button {
    </div>
   </div>
 {% endraw %}
+
+{% include specialnews.md %}
 
 <script src="https://js.stripe.com/v3"></script>
 <script src="https://unpkg.com/vue"></script>
