@@ -2,6 +2,7 @@
 * [Renew Membership](https://owasp.org/membership/)
 * [Manage Your Membership](https://owasp.org/manage-membership/)
 * [Provision Email Address](https://owasp.org/manage-membership/)
+* [Apply for the OWASP Global Board](https://owasp.wufoo.com/forms/k1gi5ou600odxu0/)
 * [SecureFlag Platform](https://www.secureflag.com/owasp.html)
 * [Contribute to Projects](https://owasp.org/projects/)
 * [Find a Chapter](https://owasp.org/chapters/)
