@@ -223,7 +223,7 @@ window.addEventListener('load', function() {
                 this.loading = false
                               
                 // for now assuming this is local testing
-                
+                /*
                 this.membership_data = {}
                 this.membership_data['membership_type'] = 'one'
                 this.membership_data['name'] = 'Harold Test Data'
