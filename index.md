@@ -223,7 +223,7 @@ window.addEventListener('load', function() {
                 this.loading = false
                               
                 // for now assuming this is local testing
-                /*
+                
                 this.membership_data = {}
                 this.membership_data['membership_type'] = 'one'
                 this.membership_data['name'] = 'Harold Test Data'
@@ -324,12 +324,13 @@ window.addEventListener('load', function() {
         return false;
       },
       removePhoneItem: function(item) {
+        this.errors = []
         if(this.membership_data['phone_numbers'].length <= 1) {
           error = { 'phone' :'You must have at least one phone number.' }
           if(!this.errors.some(e => e.phone)) {
             this.errors.push(error)
           }
-          this.errors = []
+          //this.errors = []
           this.$forceUpdate()
           return false;
         }
@@ -347,12 +348,13 @@ window.addEventListener('load', function() {
           return false;
       },
       removeEmailItem: function(item){
+        this.errors = []
         if(this.membership_data['emails'].length <= 1) {
           error = { 'email' :'You must have at least one email.' }
            if(!this.errors.some(e => e.email)) {
             this.errors.push(error)
           }
-          this.errors = []
+          //this.errors = []
           this.$forceUpdate()
           return false;
         }
