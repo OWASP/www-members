@@ -300,7 +300,7 @@ window.addEventListener('load', function() {
           this.errors.push(error)
         }
         if(!('phone_numbers' in this.membership_data) || this.membership_data['phone_numbers'].length <= 0) {
-          error = { 'email':'You must have at least one phone number.'}
+          error = { 'phone':'You must have at least one phone number.'}
           this.errors.push(error)
         }
         if(!('address' in this.membership_data) || this.membership_data['address']['street'].length <= 0 ||
@@ -325,7 +325,7 @@ window.addEventListener('load', function() {
       },
       removePhoneItem: function(item) {
         if(this.membership_data['phone_numbers'].length <= 1) {
-          error = { phone :'You must have at least one phone number.' }
+          error = { 'phone' :'You must have at least one phone number.' }
           if(!this.errors.some(e => e.phone)) {
             this.errors.push(error)
           }
@@ -348,7 +348,7 @@ window.addEventListener('load', function() {
       },
       removeEmailItem: function(item){
         if(this.membership_data['emails'].length <= 1) {
-          error = { email :'You must have at least one email.' }
+          error = { 'email' :'You must have at least one email.' }
            if(!this.errors.some(e => e.email)) {
             this.errors.push(error)
           }
