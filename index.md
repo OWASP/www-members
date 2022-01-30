@@ -350,7 +350,7 @@ window.addEventListener('load', function() {
         };
         window.axios
           .get(
-            "https://cors-anywhere.herokuapp.com/https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==",
+            "https://owaspadmin.azurewebsites.net/api/get-member-info?code=mWP6TjdDSJZOQIZQNtb2fUPuzuIamwaobBZUTnN24JEdtFybiTDl7A==",
             postData
           )
           .then((response) => {
@@ -504,7 +504,7 @@ window.addEventListener('load', function() {
           };
           window.axios
             .get(
-              "https://cors-anywhere.herokuapp.com/https://owaspadmin.azurewebsites.net/api/update-member-info?code=NRBl9EyVfVJYZCos5BuhquJ8KlPj/X35Isl7kNj6uk0Zr88xhPJZ5A==",
+              "https://owaspadmin.azurewebsites.net/api/update-member-info?code=NRBl9EyVfVJYZCos5BuhquJ8KlPj/X35Isl7kNj6uk0Zr88xhPJZ5A==",
               postData
             )
             .then((response) => {
