@@ -74,7 +74,7 @@ button {
       <label>Please correct the following:</label>
       <template v-for="(err, i) in errors">
         <template v-for="(msg, ii) in err">
-          <div class="error" :key="`error-${i}-${ii}`">{{ msg }}</div>
+          <div class="error" :key="'error-'+i+'-'+ii">{{ msg }}</div>
         </template>
       </template>
     </div>
@@ -152,7 +152,7 @@ button {
       <div class="label">Email:</div>
       <div class="multi-info">
         <template v-for="(item, i) in membership_data.emails">
-          <div class="sub-item" :key="`email-${i}-input`">
+          <div class="sub-item" :key="'email-'+i+'-input'">
             {{ item.email }}
           </div>
         </template>
@@ -170,7 +170,7 @@ button {
       <div class="label">Phone:</div>
       <div class="multi-info">
         <template v-for="(item, i) in membership_data.phone_numbers">
-          <div class="sub-item" :key="`number-${i}-input`">
+          <div class="sub-item" :key="'number-'+i+'-input'">
             {{ item.number }}
           </div>
         </template>
@@ -199,14 +199,14 @@ button {
             class="sub-item"
             type="text"
             v-model="item.email"
-            :key="`email-${i}-input`"
+            :key="'email-'+i+'-input'"
           /><button
             class="cta-button red small"
             v-on:click="removeEmailItem(item)"
-            :key="`email-${i}-button`"
+            :key="email-'+i+'-button'"
           >
             x</button
-          ><br :key="`email-${i}-br`" />
+          ><br :key="email-'+i+'-br'" />
         </template>
       </div>
       <label for="address">Address:</label>
@@ -511,15 +511,15 @@ button {
             class="sub-item"
             type="text"
             v-model="item.number"
-            :key="`phone-${i}-input`"
+            :key="'phone-'+i+'-input'"
           />
           <button
-            :key="`phone-${i}-button`"
+            :key="'phone-'+i+'-button'"
             class="cta-button red small"
             v-on:click="removePhoneItem(item)"
           >
             x</button
-          ><br :key="`phone-${i}-br`" />
+          ><br :key="'phone-'+i+'-br'" />
         </template>
       </div>
       <div>
@@ -553,11 +553,11 @@ button {
         <!-- v-model="membership_data.leader_info" -->
         <div
           class="label capitalize"
-          :key="`membership_data.leader_info_${i}+type`"
+          :key="'membership_data.leader_info_'+i+'-type'"
         >
           {{ item.group - type }} Leader
         </div>
-        <div class="info" :key="`membership_data.leader_info_${i}_info`">
+        <div class="info" :key="'membership_data.leader_info_'+i+'-info'">
           <a v-bind:href="item.group_url">{{ item.group }}</a>
         </div>
       </template>
