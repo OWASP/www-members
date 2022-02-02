@@ -203,10 +203,10 @@ button {
           /><button
             class="cta-button red small"
             v-on:click="removeEmailItem(item)"
-            :key="email-'+i+'-button'"
+            :key="'email-'+i+'-button'"
           >
             x</button
-          ><br :key="email-'+i+'-br'" />
+          ><br :key="'email-'+i+'-br'" />
         </template>
       </div>
       <label for="address">Address:</label>
