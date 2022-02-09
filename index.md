@@ -705,7 +705,7 @@ window.addEventListener('load', function() {
       },
       renewal_link() {
         if(this.membership_data.membership_email)
-          return "https://owasp.org/membership?email_address=" + this.membership_data.membership_email;
+          return "https://owasp.org/membership?email=" + this.membership_data.membership_email;
         else
           return "https://owasp.org/membership/"
       }
