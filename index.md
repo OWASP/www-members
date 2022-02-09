@@ -129,9 +129,7 @@ button {
         <div class="label">Membership End:</div>
         <div class="info">{{ membership_data.membership_end }}</div>
         <div v-if="renewal_near">
-          <a href="https://owasp.org/membership/"
-            ><button class="cta-button">Renew Now</button></a
-          >
+          <a v-bind:href="renewal_link"><button class="cta-button">Renew Now</button></a>
         </div>
         <div
           class="label"
@@ -639,13 +637,13 @@ window.addEventListener('load', function() {
             this.loading = false;
             console.error(err);
             // for now assuming this is local testing
-            /*
+            ///*
                     this.membership_data = {}
                     this.membership_data.membership_type = 'one'
                     this.membership_data['name'] = 'Harold Test Data'
-                    this.membership_data['membership_end'] = '2021-04-22'
+                    this.membership_data['membership_end'] = '2022-02-11'
                     this.membership_data['emails'] = [{'email':'harold.blankenship@owasp.com'},{'email':'kithwood@gmail.com'}]
-                    //this.membership_data.phone_numbers=[{'number':'5126443053'}]
+                    this.membership_data.phone_numbers=[{'number':'5126443053'}]
                     this.membership_data['membership_recurring']='no'
                     this.membership_data['member_number'] = 'owasp.org'
                     this.membership_data['address'] = {'street':'', 'city':'', 'state':'', 'postal_code':'', 'country':''}
@@ -684,7 +682,7 @@ window.addEventListener('load', function() {
                           }
                       }, 1000, this.membership_data)
                       this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
-                    */
+                  //  */
 
             this.$forceUpdate();
           });
@@ -705,6 +703,9 @@ window.addEventListener('load', function() {
           return diff / (1000 * 60 * 60 * 24) < 30;
         } else return false;
       },
+      renewal_link() {
+        return "https://owasp.org/membership?email_address=" + this.membership_data.emails[0].email;
+      }
     },
     methods: {
       validate: function () {
