@@ -704,7 +704,10 @@ window.addEventListener('load', function() {
         } else return false;
       },
       renewal_link() {
-        return "https://owasp.org/membership?email_address=" + this.membership_data.emails[0].email;
+        if(this.membership_data.membership_email)
+          return "https://owasp.org/membership?email_address=" + this.membership_data.membership_email;
+        else
+          return "https://owasp.org/membership/"
       }
     },
     methods: {
