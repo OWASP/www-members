@@ -19,4 +19,7 @@ Access to the DevSecOps training materials
 <hr>
 [![AppSecPhoenix Community Edition](/assets/images/corporate/appsec_phoenix.png){:width="200px"}](https://appsecphoenix.cloud/signup/owasp)<br>
 Free access to an application security posture platform and scanners<br>
-If you have problems signing up, be sure to access the [knowledge base](https://kb.appsecphoenix.com/?ht_kb=owasp-sign-up-process)
+If you have problems signing up, be sure to access the [knowledge base](https://kb.appsecphoenix.com/?ht_kb=owasp-sign-up-process)<br>
+[AppSecPhoenix Support](mailto:support@appsecphoenix.com)<br>
+[AppSecPhoenix Slack](https://appsecphx-community.slack.com) <br>
+[General Questions](mailto:ask@appsecphoenix.com)
