@@ -6,5 +6,5 @@
 * [Membership Benefits from our Partners](/partner_benefits/)
 * [Contribute to Projects](https://owasp.org/projects/)
 * [Find a Chapter](https://owasp.org/chapters/)
-* [Purchase OWASP Gear](https://owasp.org/store/)
+* [Purchase OWASP Gear](https://www.zazzle.com/store/owasp_foundation)
 
