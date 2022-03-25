@@ -545,8 +545,13 @@ button {
       <h3 class="section-label">Leadership Information</h3>
       <template v-for="(item, i) in membership_data.leader_info">
         <!-- v-model="membership_data.leader_info" -->
+        <div
+          class="label capitalize"          
+        >
+          {{ item['group-type'] }} Leader
+        </div>
         <div class="info" >
-          <a v-bind:href="item.group_url">{{ item.group }} Leader</a>
+          <a v-bind:href="item.group_url">{{ item.group }}</a>
         </div>
       </template>
     </div>
@@ -632,7 +637,7 @@ window.addEventListener('load', function() {
             this.loading = false;
             console.error(err);
             // for now assuming this is local testing
-            /*
+            
                     this.membership_data = {}
                     this.membership_data.membership_type = 'one'
                     this.membership_data['name'] = 'Harold Test Data'
@@ -677,7 +682,7 @@ window.addEventListener('load', function() {
                           }
                       }, 1000, this.membership_data)
                       this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
-                  // */ 
+                  //  
 
             this.$forceUpdate();
           });
