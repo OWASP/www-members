@@ -548,7 +548,7 @@ button {
         <div
           class="label capitalize"          
         >
-          {{ item.type }} Leader
+          {{ item.group-type }} Leader
         </div>
         <div class="info" >
           <a v-bind:href="item.group_url">{{ item.group }}</a>
