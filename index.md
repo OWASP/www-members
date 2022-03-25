@@ -637,7 +637,7 @@ window.addEventListener('load', function() {
             this.loading = false;
             console.error(err);
             // for now assuming this is local testing
-            
+            /*
                     this.membership_data = {}
                     this.membership_data.membership_type = 'one'
                     this.membership_data['name'] = 'Harold Test Data'
@@ -682,7 +682,7 @@ window.addEventListener('load', function() {
                           }
                       }, 1000, this.membership_data)
                       this.saved_data = JSON.parse(JSON.stringify(this.membership_data))
-                  //  
+                  //  */
 
             this.$forceUpdate();
           });
