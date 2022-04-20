@@ -196,7 +196,8 @@ button {
           <input
             class="sub-item"
             type="text"
-            v-model="item.email"            
+            v-model="item.email"  
+            maxlength="72"          
           /><button
             class="cta-button red small"
             v-on:click="removeEmailItem(item)"
@@ -211,30 +212,35 @@ button {
         ><input
           id="street"
           type="text"
+          maxlength="72"
           v-model="membership_data.address.street"
         /><br />
         <label for="city">City:</label
         ><input
           id="city"
           type="text"
+          maxlength="72"
           v-model="membership_data.address.city"
         /><br />
         <label for="state">State:</label
         ><input
           id="state"
           type="text"
+          maxlength="72"
           v-model="membership_data.address.state"
         /><br />
         <label for="postal_code">Postal Code:</label
         ><input
           id="postal_code"
           type="text"
+          maxlength="72"
           v-model="membership_data.address.postal_code"
         /><br />
         <label for="country">Country:</label>
         <select
           id="country"
           type="text"
+          maxlength="72"
           v-model="membership_data.address.country"
         >
           <option value="AF">Afghanistan</option>
@@ -506,6 +512,7 @@ button {
           <input
             class="sub-item"
             type="text"
+            maxlength="72"
             v-model="item.number"            
           />
           <button            
@@ -720,35 +727,65 @@ window.addEventListener('load', function() {
           this.errors.push(nameError);
         }
 
+        if (this.membership_data?.name.length > 72) {
+          const nameError = { name: "Name must be between 1 and 72 characters" };
+          console.warn(nameError);
+          this.errors.push(nameError);
+        }
+
         if (
           !("emails" in this.membership_data) ||
-          this.membership_data?.emails?.length <= 0
-        ) {
+          this.membership_data?.emails?.length <= 0) {
           const emailError = { email: "You must have at least one email." };
           console.warn(emailError);
           this.errors.push(emailError);
         }
+        for(email in this.membership_data?.emails) {
+          if(email.length <= 0 || email.length > 72){
+            const emailError = { email: "Email address must be between 1 and 72 characters" };
+          console.warn(emailError);
+          this.errors.push(emailError);
+          }
+        }
+
         if (
           !("phone_numbers" in this.membership_data) ||
-          this.membership_data?.phone_numbers?.length <= 0
-        ) {
+          this.membership_data?.phone_numbers?.length <= 0) {
           const phoneError = {
             phone: "You must have at least one phone number.",
           };
           console.warn(phoneError);
           this.errors.push(phoneError);
         }
+        for(pnumber in this.membership_data?.phone_numbers) {
+          if(pnumber.length <= 0 || pnumber.length > 72) {
+            const phoneError = {
+            phone: "Phone number must be between 1 and 72 characters",
+          };
+          console.warn(phoneError);
+          this.errors.push(phoneError);
+          }
+        }
+
         if (
           !("address" in this.membership_data) ||
           this.membership_data?.address?.street?.length <= 0 ||
           this.membership_data?.address?.city?.length <= 0 ||
           this.membership_data?.address?.postal_code?.length <= 0 ||
-          this.membership_data?.address?.country?.length <= 0
-        ) {
+          this.membership_data?.address?.country?.length <= 0) {
           const addressError = { address: "You must have a valid address." };
           console.warn(addressError);
           this.errors.push(addressError);
         }
+
+        if(this.membership_data?.address?.street?.length > 72 ||
+           this.membership_data?.address?.city?.length > 72 ||
+           this.membership_data?.address?.postal_code?.length > 72 ||
+           this.membership_data?.address?.country?.length > 72) {
+             const addressError = { address: "Address fields must be between 1 and 72 characters" };
+             console.warn(addressError);
+             this.errors.push(addressError);
+           }
 
         return this.errors.length === 0;
       },
@@ -827,7 +864,7 @@ window.addEventListener('load', function() {
             },
           };
           axios
-            .get(
+            .post(
               "https://owaspadmin.azurewebsites.net/api/update-member-info?code=NRBl9EyVfVJYZCos5BuhquJ8KlPj/X35Isl7kNj6uk0Zr88xhPJZ5A==",
               postData
             )
