@@ -864,7 +864,7 @@ window.addEventListener('load', function() {
             },
           };
           axios
-            .get(
+            .post(
               "https://owaspadmin.azurewebsites.net/api/update-member-info?code=NRBl9EyVfVJYZCos5BuhquJ8KlPj/X35Isl7kNj6uk0Zr88xhPJZ5A==",
               postData
             )
