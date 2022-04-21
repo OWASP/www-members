@@ -181,7 +181,7 @@ button {
     </div>
     <div id="member-edit" v-if="member_ready && mode == 1">
       <label for="memname">Name:</label
-      ><input type="text" id="memname" v-model="membership_data.name" />
+      ><input type="text" id="memname" maxlength="128" v-model="membership_data.name" />
       <br />
       <label
         >Email:<button
@@ -727,8 +727,8 @@ window.addEventListener('load', function() {
           this.errors.push(nameError);
         }
 
-        if (this.membership_data?.name.length > 72) {
-          const nameError = { name: "Name must be between 1 and 72 characters" };
+        if (this.membership_data?.name.length > 128) {
+          const nameError = { name: "Name must be between 1 and 128 characters" };
           console.warn(nameError);
           this.errors.push(nameError);
         }
