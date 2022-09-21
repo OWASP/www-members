@@ -3,11 +3,14 @@
 layout: col-sidebar
 title: OWASP Membership Portal
 tags: OWASP membership, owspmem
+maintenance: true
 
 ---
 
 <!-- rebuild 3 -->
-
+{% if page.maintenance %}
+The Membership portal is currently undergoing maintenance and will return soon. Thank you for your patience.
+{% else %}
 <style>
 [v-cloak] {display: none}
 
@@ -888,3 +891,4 @@ window.addEventListener('load', function() {
   }) // end Vue
 }, false) // end addEventListener
 </script>
+{% endif %}
