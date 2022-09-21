@@ -3,7 +3,7 @@
 layout: col-sidebar
 title: OWASP Membership Portal
 tags: OWASP membership, owspmem
-maintenance: true
+maintenance: false
 
 ---
 
