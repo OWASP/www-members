@@ -6,6 +6,9 @@ tags: OWASP membership, owspmem, benefits
 permalink: /partner_benefits/
 
 ---
+
+<i>Partner benefits subject to change.</i>
+
 <br><br>
 [![SecureFlag Platform](https://owasp.org/assets/images/corp-member-logo/secureflagposhighres_copy.png){:width="200px"}](https://www.secureflag.com/owasp.html)<br>
 Hands-on application security training
