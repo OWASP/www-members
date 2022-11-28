@@ -22,3 +22,6 @@ If you have problems signing up, be sure to access the [knowledge base](https://
 <hr>
 [![Security Journey](https://owasp.org/assets/images/corp-member-logo/security-journey.png){:width="200px"}](https://owasp.securityjourney.com)<br>
 Earn your Security Journey OWASP Security Belt through this entertaining online training.
+<hr>
+[![Ubiq](/assets/images/corporate/ubiq_logo.png){:width="200px"}](https://dashboard.ubiqsecurity.com)<br>
+The Ubiq platform was built so that engineering, security, and compliance teams can build client-side encryption into their applications in minutes, through an easy-to-use, developer-first encryption-as-code platform.<br>
