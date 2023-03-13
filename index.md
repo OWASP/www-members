@@ -93,8 +93,8 @@ button {
       If you are a leader who has not applied for complimentary membership, you
       may do so at <a href="https://owasp.org/membership/">Become a Member</a
       ><br />
-      If you feel this message is in error, contact
-      <a href="mailto:membership@owasp.com">Member Services</a>
+      If you feel this message is in error, submit a JIRA ticket at
+      <a href="https://owasporg.atlassian.net/servicedesk/customer/portal/9/group/21/create/99">Membership Portal Support</a>
     </div>
     <div
       id="member-logged-out"
