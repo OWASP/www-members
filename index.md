@@ -710,7 +710,7 @@ window.addEventListener('load', function() {
         if (this.membership_data.membership_end) {
           var dt = Date.parse(this.membership_data.membership_end);
           var diff = Math.abs(dt - Date.now());
-          return diff / (1000 * 60 * 60 * 24) < 30;
+          return true; // for now just show the button, regardless of if the end date is withint 30 days diff / (1000 * 60 * 60 * 24) < 30;
         } else return false;
       },
       renewal_link() {
