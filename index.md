@@ -153,8 +153,11 @@ button {
       <div class="label">Email:</div>
       <div class="multi-info">
         <template v-for="(item, i) in membership_data.emails">
-          <div class="sub-item" >
-            {{ item.email }}
+          <div v-if="item.email == membership_data.membership_email" class="sub-item" >
+            {{ item.email }} [Membership Email]
+          </div>
+          <div v-else>
+            {{ item.email }} 
           </div>
         </template>
       </div>
@@ -549,10 +552,11 @@ button {
       v-if="
         membership_data &&
         membership_data.leader_info &&
-        membership_data.leader_info.length > 0
+        membership_data.leader_info.length > 0 &&
+        mode == 0
       "
     >
-      <h3 class="section-label">Leadership Information</h3>
+      <h3 class="section-label" >Leadership Information</h3>
       <template v-for="(item, i) in membership_data.leader_info">
         <!-- v-model="membership_data.leader_info" -->
         <div
@@ -653,6 +657,7 @@ window.addEventListener('load', function() {
                     this.membership_data['name'] = 'Harold Test Data'
                     this.membership_data['membership_end'] = '2022-02-11'
                     this.membership_data['emails'] = [{'email':'harold.blankenship@owasp.com'},{'email':'kithwood@gmail.com'}]
+                    this.membership_data.membership_email = 'harold.blankenship@owasp.com'
                     this.membership_data.phone_numbers=[{'number':'5126443053'}]
                     this.membership_data['membership_recurring']='no'
                     this.membership_data['member_number'] = 'owasp.org'
@@ -838,6 +843,16 @@ window.addEventListener('load', function() {
             this.errors.push(emailError);
           }
           //this.errors = []
+          this.$forceUpdate();
+          return false;
+        }
+        
+        if (this.membership_data.membership_email == item.email) {
+          if (!this.errors.some((e) => e.email)) {
+            const emailError = { email: "You may not delete your membership email." };
+            console.warn(emailError);
+            this.errors.push(emailError);
+          }
           this.$forceUpdate();
           return false;
         }
