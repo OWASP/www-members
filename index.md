@@ -3,7 +3,7 @@
 layout: col-sidebar
 title: OWASP Membership Portal
 tags: OWASP membership, owspmem
-maintenance: false
+maintenance: true
 
 ---
 
@@ -67,6 +67,10 @@ button {
 
 .capitalize {
     text-transform: capitalize;
+}
+
+.danger-button {
+  background-color: #dc3545;
 }
 </style>
 
@@ -148,6 +152,27 @@ button {
         >
       </section>
     </div>
+    <!-- start email section -->
+    <div id='email-info' class="info-section" v-if="member_ready && membership_data.emaillist && membership_data.emaillist.length > 1 && mode == 0">
+      <h3 class="section-label">Provision an OWASP Email Address</h3>
+        <div>
+          Choose one from the list below:<br>
+          (If you already have an OWASP email, please do not provision another)
+          <hr>
+        </div>
+        <div v-for="error in errors">
+          <label class="error-text" id="provision-error">{{error[0]}}</label>
+        </div>
+        <div v-for="em in membership_data.emaillist">
+          <div style="display: inline-block;">
+            <input type="radio" name="email_provision" v-model="chosen_email" v-bind:value="em"> &nbsp;&nbsp;{{em}}
+          </div>
+        </div>
+        <div style="margin-top: 20px;">
+          <button class="cta-button" v-on:click="redirectToAzure()" v-bind:disabled="provision_disabled">{{provision_message}}</button>
+        </div>
+    </div>
+    <!-- end email section -->
     <div class="info-section" v-if="member_ready && mode == 0">
       <h3 class="section-label">Personal Information</h3>
       <div class="label">Email:</div>
@@ -570,6 +595,40 @@ button {
       </template>
     </div>
     <!-- end leader section -->
+    <!-- start billing section -->
+    <div class="info-section" v-if="membership_data && membersubs && membersubs.length > 0 && mode == 0">
+      <h3 class="section-label">Billing Information</h3>               
+          <div v-if="membersubs.length > 0" style="margin-bottom: 40px;">
+            <h3>Manage Recurring Membership</h3>
+            <div v-for="membership in membersubs">
+              <div><strong>{{ membership.subscription_name }}</strong></div>
+              <div>{{ membership.card.brand }} ending in {{ membership.card.last_4 }}</div>
+              <div>Next Billing Date: {{ membership.next_billing_date }}</div>
+              <div style="margin-right: 18px; display: inline-block;">
+                <button class="cta-button" v-on:click="redirectToStripe(membership.checkout_session)">Update Payment Information</button>
+              </div>
+              <div style="display: inline-block;">
+                <button class="cta-button danger-button" v-on:click="doCancellation(membership.checkout_session)">{{ pendingCancellation === membership.checkout_session ? 'Are you sure?' : 'Cancel Recurring' }}</button>
+              </div>
+            </div>
+          </div>
+          <div v-if="donations.length > 0">
+            <h3>Manage Recurring Donations</h3>
+            <div v-for="donation in donations">
+              <div><strong>{{ donation.subscription_name }}</strong></div>
+              <div>{{ donation.card.brand }} ending in {{ donation.card.last_4 }}</div>
+              <div>Next Billing Date: {{ donation.next_billing_date }}</div>
+              <div style="margin-right: 18px; display: inline-block;">
+                <button class="cta-button" v-on:click="redirectToStripe(donation.checkout_session)">Update Payment Information</button>
+              </div>
+              <div style="display: inline-block;">
+                <button class="cta-button danger-button" v-on:click="doCancellation(donation.checkout_session)">{{ pendingCancellation === donation.checkout_session ? 'Are you sure?' : 'Cancel Recurring' }}</button>
+              </div>
+            </div>
+          </div>   
+    </div>
+    <!-- end billing section -->
+
 
     <div id="loading" v-if="loading">
       This may take a few moments...
@@ -585,7 +644,7 @@ button {
 <script src="https://js.stripe.com/v3"></script>
 <script src="https://unpkg.com/vue@2"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
 <script>
 window.addEventListener('load', function() {
   new Vue({
@@ -599,6 +658,11 @@ window.addEventListener('load', function() {
         mode: 0,
         saved_data: null,
         member_logged_out: false,
+        pendingCancellation: false,
+        chosen_email: '',
+        provision_email_message: false,
+        provision_message: 'Provision',
+        provision_disabled: false
       };
     },
     created: function () {
@@ -651,7 +715,7 @@ window.addEventListener('load', function() {
             this.loading = false;
             console.error(err);
             // for now assuming this is local testing
-            /*
+            ///*
                     this.membership_data = {}
                     this.membership_data.membership_type = 'one'
                     this.membership_data['name'] = 'Harold Test Data'
@@ -660,7 +724,7 @@ window.addEventListener('load', function() {
                     this.membership_data.membership_email = 'harold.blankenship@owasp.com'
                     this.membership_data.phone_numbers=[{'number':'5126443053'}]
                     this.membership_data['membership_recurring']='no'
-                    this.membership_data['member_number'] = 'owasp.org'
+                    this.membership_data['member_number'] = 'cst_34249829348298439283749'
                     this.membership_data['address'] = {'street':'', 'city':'', 'state':'', 'postal_code':'', 'country':''}
                     this.membership_data['member-qr'] = 'https://owasp.org'
                     this.membership_data.leader_info = [{
@@ -686,7 +750,8 @@ window.addEventListener('load', function() {
                                                           }]
                     this.member_logged_out = false
                     this.loading=false
-                    
+                    this.membership_data.subscriptions = [{"type":"membership", "subscription_name":"My Subscription", "card" : {"brand":"VISA", "last_4":"1234"}, "next_billing_date":"tomorrow", "checkout_session":"boo!"},{"type":"donation","subscription_name":"My Donation", "card" : {"brand":"VISA", "last_4":"1234"}, "next_billing_date":"tomorrow", "checkout_session":"Hoo!"}]
+                    this.membership_data.emaillist = ["harry.b@owasp.org","b.harry@owasp.org","claptrap@owasp.org"]
                     setTimeout(function(membership_data) { 
                           if(membership_data && membership_data['name']) {
                               el = kjua({text: membership_data['member_number']});
@@ -704,6 +769,12 @@ window.addEventListener('load', function() {
       } // end if loading
     },
     computed: {
+      membersubs: function () {
+        return _.filter(_.get(this.membership_data, 'subscriptions', []), { type: 'membership' });
+      },
+      donations: function () {
+        return _.filter(_.get(this.membership_data, 'subscriptions', []), { type: 'donation' });
+      },
       member_ready() {
         return (
           !this.loading &&
@@ -900,6 +971,63 @@ window.addEventListener('load', function() {
               this.mode = 0;
               this.$forceUpdate();
             });
+        }
+      },
+      // BELOW FUNCTIONS NEED UPDATING TO FUNCTION
+      redirectToAzure: function () {
+        let vm = this;
+        if(!vm.chosen_email || vm.chosen_email == '')
+        {
+          let errors = {};
+          errors.chosen_email = ['Please choose an email address.'];
+          this.errors = errors;
+          vm.$nextTick(function () {
+                document.getElementById('provision-error').scrollIntoView();
+              })
+          return;
+        }
+        vm.provision_message = 'Please wait...(this may take some time)';
+        vm.provision_disabled = true;
+        const postData = {
+          token: this.membership_data.customer_token,
+          email: vm.chosen_email
+        };
+        
+        axios.post('https://owaspadmin.azurewebsites.net/api/provisionemail?code=KpGlIqooyYW3GYEHuYTYzRmwSiVbeGQ4xRRarY7UWhBLwoRASFVn3g==', postData)
+          .then(function (response) {
+                vm.membership_data.emaillist = []
+                vm.provision_email_message = true
+          }).catch(function (error) {
+              vm.errors = [error]
+            });
+  
+      },
+      redirectToStripe: function (sessionId) {
+        alert("redirectToStripe");
+        return;
+        stripe.redirectToCheckout({
+          sessionId: sessionId
+        }).then(function (result) {
+
+        }); 
+      },
+      doCancellation: function (sessionId) {
+        if (this.pendingCancellation && this.pendingCancellation === sessionId) {
+          let vm = this;
+          const postData = {
+            token: sessionId
+          };
+          alert("I did !");
+          return;
+          axios.post('https://owaspadmin.azurewebsites.net/api/CancelSubscription?code=Wo2wqKKpOMZP0LycmMGWLl3z8wGqK0BoIPRL/3At9W31ZnHZSRn8xw==', postData)
+            .then(function (response) {
+              vm.loadingUserData = true;
+              vm.getMemberInfo();
+            }).finally(function () {
+              vm.pendingCancellation = null;
+            })
+        } else {
+          this.pendingCancellation = sessionId;
         }
       },
     }, // end methods
