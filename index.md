@@ -171,10 +171,10 @@ button {
         <div style="margin-top: 20px;">
           <button class="cta-button" v-on:click="redirectToAzure()" v-bind:disabled="provision_disabled">{{provision_message}}</button>
         </div>
-    </div>
+    </div>    
     <div id='email-provisioned' class="info-section" v-if="provision_email_message == true">
-        <h3>Your Email was Created</h3>
-        Please go to <a href="https://mail.google.com">Google Mail</a> and logout of any current account or click Add another account.  Choose 'Forgot password' and 'try another way' then 'receive a verification code'.
+        <h3 class="section-label">Your Email was Created</h3>
+        To access your OWASP email, please go to <a href="https://mail.google.com">Google Mail</a> and logout of any current account OR click Add another account.  Choose 'Forgot password' and 'try another way' then 'receive a verification code'.
     </div>
     <!-- end email section -->
     <div class="info-section" v-if="member_ready && mode == 0">
@@ -650,6 +650,7 @@ button {
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
 <script>
+var stripe = Stripe('pk_live_mw0B2kiXQTFkD44liAEI03oT00S5AGfSV3');
 window.addEventListener('load', function() {
   new Vue({
     el: '#membership-portal-app',
@@ -671,6 +672,39 @@ window.addEventListener('load', function() {
     },
     created: function () {
       if (this.loading) {
+        this.getMemberInfo();        
+      } // end if loading
+    },
+    computed: {
+      membersubs: function () {
+        return _.filter(_.get(this.membership_data, 'subscriptions', []), { type: 'membership' });
+      },
+      donations: function () {
+        return _.filter(_.get(this.membership_data, 'subscriptions', []), { type: 'donation' });
+      },
+      member_ready() {
+        return (
+          !this.loading &&
+          this.membership_data != null &&
+          this.membership_data.name
+        );
+      },
+      renewal_near() {
+        if (this.membership_data.membership_end) {
+          var dt = Date.parse(this.membership_data.membership_end);
+          var diff = Math.abs(dt - Date.now());
+          return true; // for now just show the button, regardless of if the end date is withint 30 days diff / (1000 * 60 * 60 * 24) < 30;
+        } else return false;
+      },
+      renewal_link() {
+        if(this.membership_data.membership_email)
+          return "https://owasp.org/membership?email=" + this.membership_data.membership_email;
+        else
+          return "https://owasp.org/membership/"
+      }
+    },
+    methods: {
+      getMemberInfo: function () {
         const postData = {
           params: {
             authtoken: Cookies.get("CF_Authorization"),
@@ -719,7 +753,7 @@ window.addEventListener('load', function() {
             this.loading = false;
             console.error(err);
             // for now assuming this is local testing
-            ///*
+            /*
                     this.membership_data = {}
                     this.membership_data.membership_type = 'one'
                     this.membership_data['name'] = 'Harold Test Data'
@@ -770,37 +804,7 @@ window.addEventListener('load', function() {
 
             this.$forceUpdate();
           });
-      } // end if loading
-    },
-    computed: {
-      membersubs: function () {
-        return _.filter(_.get(this.membership_data, 'subscriptions', []), { type: 'membership' });
       },
-      donations: function () {
-        return _.filter(_.get(this.membership_data, 'subscriptions', []), { type: 'donation' });
-      },
-      member_ready() {
-        return (
-          !this.loading &&
-          this.membership_data != null &&
-          this.membership_data.name
-        );
-      },
-      renewal_near() {
-        if (this.membership_data.membership_end) {
-          var dt = Date.parse(this.membership_data.membership_end);
-          var diff = Math.abs(dt - Date.now());
-          return true; // for now just show the button, regardless of if the end date is withint 30 days diff / (1000 * 60 * 60 * 24) < 30;
-        } else return false;
-      },
-      renewal_link() {
-        if(this.membership_data.membership_email)
-          return "https://owasp.org/membership?email=" + this.membership_data.membership_email;
-        else
-          return "https://owasp.org/membership/"
-      }
-    },
-    methods: {
       validate: function () {
         this.errors = [];
 
@@ -1021,7 +1025,7 @@ window.addEventListener('load', function() {
           };
           axios.post('https://owaspadmin.azurewebsites.net/api/CancelSubscription?code=Wo2wqKKpOMZP0LycmMGWLl3z8wGqK0BoIPRL/3At9W31ZnHZSRn8xw==', postData)
             .then(function (response) {
-              vm.loadingUserData = true;
+              vm.loading = true;
               vm.getMemberInfo();
             }).finally(function () {
               vm.pendingCancellation = null;
