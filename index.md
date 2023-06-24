@@ -172,6 +172,10 @@ button {
           <button class="cta-button" v-on:click="redirectToAzure()" v-bind:disabled="provision_disabled">{{provision_message}}</button>
         </div>
     </div>
+    <div id='email-provisioned' class="info-section" v-if="provision_email_message == true">
+        <h3>Your Email was Created</h3>
+        Please go to <a href="https://mail.google.com">Google Mail</a> and logout of any current account or click Add another account.  Choose 'Forgot password' and 'try another way' then 'receive a verification code'.
+    </div>
     <!-- end email section -->
     <div class="info-section" v-if="member_ready && mode == 0">
       <h3 class="section-label">Personal Information</h3>
@@ -596,7 +600,7 @@ button {
     </div>
     <!-- end leader section -->
     <!-- start billing section -->
-    <div class="info-section" v-if="membership_data && membersubs && membersubs.length > 0 && mode == 0">
+    <div class="info-section" v-if="membership_data && membership_data.subscriptions && membership_data.subscriptions.length > 0 && mode == 0">
       <h3 class="section-label">Billing Information</h3>               
           <div v-if="membersubs.length > 0" style="margin-bottom: 40px;">
             <h3>Manage Recurring Membership</h3>
@@ -1003,8 +1007,6 @@ window.addEventListener('load', function() {
   
       },
       redirectToStripe: function (sessionId) {
-        alert("redirectToStripe");
-        return;
         stripe.redirectToCheckout({
           sessionId: sessionId
         }).then(function (result) {
@@ -1017,8 +1019,6 @@ window.addEventListener('load', function() {
           const postData = {
             token: sessionId
           };
-          alert("I did !");
-          return;
           axios.post('https://owaspadmin.azurewebsites.net/api/CancelSubscription?code=Wo2wqKKpOMZP0LycmMGWLl3z8wGqK0BoIPRL/3At9W31ZnHZSRn8xw==', postData)
             .then(function (response) {
               vm.loadingUserData = true;
