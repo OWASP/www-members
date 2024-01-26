@@ -137,13 +137,7 @@ button {
         <div class="info">{{ membership_data.membership_end }}</div>
         <div v-if="renewal_near">
           <a v-bind:href="renewal_link"><button class="cta-button">Renew Now</button></a>
-        </div>
-        <div
-          class="label"
-          v-if="membership_data['membership_recurring'] == 'yes'"
-        >
-          Manage <a href="#">TODO: Provide link to Recurring Subscription</a>
-        </div>
+        </div>        
       </section>
       <section v-else>
         <div>No membership data found.</div>
