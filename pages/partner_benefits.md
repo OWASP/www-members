@@ -10,7 +10,7 @@ permalink: /partner_benefits/
 <i>Partner benefits subject to change.</i>
 
 <br><br>
-[Checkmarx Codebashing](https://checkmarx.com/codebashing/owasp/?utm_source=PR&utm_medium=referral&utm_campaign=Checkmarx_and_OWASP_Launch)<br>
+[![Checkmarx Codebashing](https://owasp.org/assets/images/corp-member-logo/Codebashing-Final-Logos_Horizontal-Logo-BLK.png){:width="200px"}](https://checkmarx.com/codebashing/owasp/?utm_source=PR&utm_medium=referral&utm_campaign=Checkmarx_and_OWASP_Launch)<br>
 <hr>
 [![SecureFlag Platform](https://owasp.org/assets/images/corp-member-logo/secureflagposhighres_copy.png){:width="200px"}](https://www.secureflag.com/owasp.html)<br>
 Hands-on application security training
